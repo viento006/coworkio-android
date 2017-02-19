@@ -9,7 +9,7 @@ export default class MainComponent extends Component {
           Welcome to Main Component!!!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          {this.props.text}
         </Text>
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}
