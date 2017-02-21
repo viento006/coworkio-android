@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
 
-import mainReducer from '../components/main/main.reducer'
+import authReducer from '../common/reducers/authReducer';
+import dashboardReducer from '../common/reducers/dashboard.reducer';
+import profileReducer from '../common/reducers/profile.reducer';
+import projectReducer from '../common/reducers/project.reducer';
+import tasksReducer from '../common/reducers/tasks.reducer';
 
-const reducers = combineReducers({ mainReducer });
+
+const reducers = combineReducers({ authReducer, dashboardReducer, profileReducer, projectReducer, tasksReducer });
 
 export default reducers;
