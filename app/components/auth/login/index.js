@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Login from './login';
-import { loginUser } from '../../common/actions/auth.actions';
+import LoginComponent from './login.component';
+import { loginUser } from '../../../common/actions/auth.actions';
 
 const mapStateToProps = (state) => {
     return  {
@@ -13,10 +13,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return  {
         onSubmit: (credentials) =>  {
-
             dispatch(loginUser(credentials))
-        } 
+        }
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
