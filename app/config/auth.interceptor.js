@@ -1,15 +1,18 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
-axios.interceptors.request.use((config) => {
+export default function () {
+    axios.interceptors.request.use(async (config) => {
 
-    const token = localStorage.getItem('token');
+        const token = await AsyncStorage.getItem('token');
 
-    if (token){
-        config.headers['X-Auth-Token'] = 'Bearer ' + token;
-    }
-    return config;
+        if (token) {
+            config.headers['X-Auth-Token'] = token;
+        }
+        return config;
 
-}, (error) => {
+    }, (error) => {
 
-    return Promise.reject(error);
-});
+        return Promise.reject(error);
+    });
+}

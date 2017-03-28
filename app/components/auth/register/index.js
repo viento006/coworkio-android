@@ -8,7 +8,7 @@ const mapStateToProps = (state) => {
     return  {
         auth: state.auth
     }
-};
+}
 
 const mapDispatchToProps = (dispatch) => {
     return  {
@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(registerUser(credentials));
         } 
     }
-};
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent)

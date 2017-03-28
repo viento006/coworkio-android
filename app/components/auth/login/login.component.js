@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, AsyncStorage } from 'react-native';
 import Button from 'react-native-button';
 
 export default class LoginComponent extends Component {
@@ -7,13 +7,20 @@ export default class LoginComponent extends Component {
         super(props)
         
     }
+
     formData = {
-        email: '',
-        password: ''
+        email:'test@test.com',
+        password:'123456'
     }
-    componentWillReceiveProps(nextProps) {
+
+    async componentWillReceiveProps(nextProps) {
         if (nextProps.auth.status === 'authenticated' && nextProps.auth.token && !nextProps.auth.error ){
             //redirect further
+
+            console.log('*******************************************************************')
+            console.log('NAVIGATING: MAIN *************************************************')
+            console.log('*******************************************************************')
+            await AsyncStorage.setItem('token', nextProps.auth.token);
             this.props.navigation.navigate('Main')
         }
     }
@@ -23,7 +30,11 @@ export default class LoginComponent extends Component {
     }
 
     render() {
-        const navParams  = this.props.navigation.state.params || {};
+        console.log('*******************************************************************')
+        console.log('RENDER: LOGIN *************************************************')
+        console.log('*******************************************************************')
+
+        const navParams  = this.formData || this.props.navigation.state.params;
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
@@ -37,22 +48,28 @@ export default class LoginComponent extends Component {
                 <TextInput style={styles.inputs} onChangeText={(email)=> this.formData.email = email} 
                     autocorrect={false} placeholder='Email' defaultValue={navParams.email}></TextInput>
 
-                <TextInput style={styles.inputs} onChangeText={(password)=> this.formData.password = password} autocorrect={false} secureTextEntry={true} placeholder='Password'></TextInput>
-                
+                <TextInput style={styles.inputs} onChangeText={(password)=> this.formData.password = password} 
+                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.password} placeholder='Password'></TextInput>
+
                 <Button containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
-                    style={styles.submitButton} onPress={this.loginPressed.bind(this)}>Log in</Button>
+                    style={styles.submitButton} onPress={this.loginPressed.bind(this)}>
+                    {this.props.auth.isPending?
+                        <ActivityIndicator  color="#fff" animating={this.props.auth.isPending} />: 
+                        'Log in'
+                    }
+                </Button>
 
                 <Text style={styles.register} onPress={() => this.props.navigation.navigate('Register')}>
                     or register
                 </Text>
             </View>
-        );
+        )
     }
 }
 
 LoginComponent.propTypes = {
     onSubmit: React.PropTypes.func.isRequired
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -84,8 +101,13 @@ const styles = StyleSheet.create({
     },
     submitButton: {
         color:"#fff",
-    }
-});
+        fontWeight: 'bold'
+    },
+    spinner: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 8,
+  }
+})
 
-
-AppRegistry.registerComponent('LoginComponent', () => LoginComponent);
+AppRegistry.registerComponent('LoginComponent', () => LoginComponent)

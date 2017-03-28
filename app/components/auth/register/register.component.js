@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator } from 'react-native';
 import Button from 'react-native-button';
 export default class RegisterComponent extends Component {
     formData = {
@@ -7,7 +7,7 @@ export default class RegisterComponent extends Component {
         surname: '',
         email: '',
         password: ''
-    };
+    }
 
     componentWillReceiveProps(nextProps){
         if (nextProps.auth.isSucceeded && !nextProps.auth.error ){
@@ -36,7 +36,12 @@ export default class RegisterComponent extends Component {
                 <TextInput style={styles.inputs} onChangeText={(password)=> this.formData.password = password} autocorrect={false} secureTextEntry={true} placeholder='Password'></TextInput>
 
                 <Button containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
-                    style={styles.submitButton} onPress={this.registerPressed.bind(this)}>Register</Button>
+                    style={styles.submitButton} onPress={this.registerPressed.bind(this)}>
+                    {this.props.auth.isPending?
+                        <ActivityIndicator  color="#fff" animating={this.props.auth.isPending} />: 
+                        'Register'
+                    }
+                </Button>
 
                 <Text style={styles.login} onPress={() => this.props.navigation.navigate('Login')}>
                     or log in
@@ -48,7 +53,7 @@ export default class RegisterComponent extends Component {
 
 RegisterComponent.propTypes = {
     onSubmit: React.PropTypes.func.isRequired
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -80,8 +85,13 @@ const styles = StyleSheet.create({
     },
     submitButton: {
         color:"#fff",
+    }, 
+    spinner: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 8,
     }
-});
+})
 
 
-AppRegistry.registerComponent('RegisterComponent', () => RegisterComponent);
+AppRegistry.registerComponent('RegisterComponent', () => RegisterComponent)
