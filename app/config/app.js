@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import configureStore from './store';
 import authInterceptor from './auth.interceptor';
-import Navigation from './navigation';
+import Navigation from '../navigation/login.navigation';
 
 authInterceptor();
 const store = configureStore();
