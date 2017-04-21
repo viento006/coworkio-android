@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, AsyncStorage } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, AsyncStorage, Modal, TouchableHighlight } from 'react-native';
 import Button from 'react-native-button';
 
 export default class LoginComponent extends Component {
     constructor(props){
         super(props)
-        
+        this.state = {
+            isError: false
+        };
     }
 
     formData = {
@@ -14,29 +16,50 @@ export default class LoginComponent extends Component {
     }
 
     async componentWillReceiveProps(nextProps) {
+        this.setModalVisibility(nextProps.auth.status === 'error')
+
         if (nextProps.auth.status === 'authenticated' && nextProps.auth.token && !nextProps.auth.error ){
             //redirect further
 
             console.log('*******************************************************************')
             console.log('NAVIGATING: MAIN *************************************************')
             console.log('*******************************************************************')
-            await AsyncStorage.setItem('token', nextProps.auth.token);
+            await AsyncStorage.setItem('token', nextProps.auth.token)
             this.props.navigation.navigate('Main')
         }
     }
 
     loginPressed() {
-        this.props.onSubmit(this.formData, this.props.navigation.navigate );
+        this.props.onSubmit(this.formData, this.props.navigation.navigate )
     }
-
+    setModalVisibility(value){
+        this.setState({isError: value});
+    }
     render() {
         console.log('*******************************************************************')
         console.log('RENDER: LOGIN *************************************************')
         console.log('*******************************************************************')
 
-        const navParams  = this.formData || this.props.navigation.state.params;
+        const navParams  = this.formData || this.props.navigation.state.params
+
         return (
             <View style={styles.container}>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={ this.state.isError } 
+                    onRequestClose={()=>{}}>
+                    <View style={[styles.modalContainer]}>
+                        <View style={[styles.modalInnerContainer]}>
+                            <Text>Email and password that you have entered are incorrect</Text>
+                            <Button
+                                onPress={() => this.setModalVisibility(false)}
+                                style={styles.modalButton}>
+                                Close
+                            </Button>
+                        </View>
+                    </View>
+                </Modal>
                 <Text style={styles.welcome}>
                     Login
                 </Text>
@@ -107,7 +130,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 8,
-  }
+    }, 
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    modalInnerContainer: {
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#fff', 
+        padding: 20
+    },  
+    modalButton: {
+        marginTop: 10,
+    },
 })
 
 AppRegistry.registerComponent('LoginComponent', () => LoginComponent)
