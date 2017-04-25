@@ -2,21 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import EditProjectComponent from './editProject.component';
-import { loginUser } from '../../../common/actions/auth.actions';
+import { createProject } from '../../../common/actions/project.actions';
 
 const mapStateToProps = (state) => {
     return  {
-        auth: state.auth
+        projects: state.projects
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return  {
-        onSubmit: (credentials) =>  {
+        onSubmit: (project) =>  {
             console.log('*******************************************************************')
-            console.log('DISPATCHED: LOGIN *************************************************')
+            console.log('DISPATCHED: CREATE\EDIT PROJECT *************************************************')
             console.log('*******************************************************************')
-            dispatch(loginUser(credentials))
+            dispatch(createProject(project))
         }
     }
 };

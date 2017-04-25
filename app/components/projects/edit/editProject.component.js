@@ -1,77 +1,90 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, AsyncStorage } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
 import Button from 'react-native-button';
 
 export default class EditProjectComponent extends Component {
-    constructor(props){
-        super(props)
-        
+    
+    constructor(){
+        super();
+        this.state = {
+            title:'',
+            description:'',
+            startDate:'',
+            endDate:'',
+            position:'',
+            githubLink:'',
+        };
     }
 
-    formData = {
-        email:'test@test.com',
-        password:'123456'
+    componentWillReceiveProps(nextProps){
+        if (!nextProps.projects.newProject.isLoading && !nextProps.projects.error && nextProps.projects.newProject.projectID ){
+            this.props.navigation.navigate('Dashboard')
+        }
     }
 
-   static navigationOptions = {
-       title: this.props.navigation.state.params.project ? 'Edit': 'Create' +' project'
-   }
+    static navigationOptions = ({ navigation, screenProps }) => ({
+        title: navigation.state.params 
+            ? (navigation.state.params.isEdit ? 'Edit': 'Create' ) +' project' 
+            : ''
+    });
 
-    loginPressed() {
-        this.props.onSubmit(this.formData, this.props.navigation.navigate );
+    selectOptions= [{label:'Hello', value: '1'}, {label:'Value', value: '2'}]
+    showPicker = async (key) => {
+        try {
+            let newState = {};
+            const {action, year, month, day} = await DatePickerAndroid.open();
+            if (action === DatePickerAndroid.dismissedAction) {
+            } else {
+                let date = new Date(year, month, day);
+                newState[key] = date;
+                this.setState(newState);
+            }
+        } catch ({code, message}) {
+            console.warn(`Error in example '${stateKey}': `, message);
+        }
+    };
+
+    formatDate(date){
+        return date ? `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}` : 'Выберите год';
     }
 
+    submit(){
+        //validate
+        this.props.onSubmit(this.state);
+    }
     render() {
         console.log('*******************************************************************')
         console.log('RENDER: EDIT PROJECT *************************************************')
         console.log('*******************************************************************')
-
-        const navParams  = this.formData || this.props.navigation.state.params;
         return (
             <View style={styles.container}>
-                <TextInput style={styles.inputs} onChangeText={(title)=> this.formData.title = title}
-                    autocorrect={false} placeholder='Title' defaultValue={navParams.title}></TextInput>
+                <TextInput style={styles.inputs} onChangeText={(title)=> this.setState({title})}
+                    autocorrect={false} placeholder='Title' value={this.state.title}></TextInput>
+                <TouchableOpacity   style={styles.datepicker}
+                    onPress={this.showPicker.bind(this, 'startDate')}>
+                    <View><Text style={styles.text}>Дата старта: {this.formatDate(this.state.startDate)}</Text></View>
+                </TouchableOpacity >
+                <TouchableOpacity style={styles.datepicker}
+                    onPress={this.showPicker.bind(this, 'endDate')}>
+                    <View><Text style={styles.text}>Дата старта: {this.formatDate(this.state.endDate)}</Text></View>
+                </TouchableOpacity  >
+                <View style={styles.picker}><Picker selectedValue={this.state.position}
+                    onValueChange={(position) => this.setState({position})}>
+                    {this.selectOptions.map((item, index) => <Picker.Item key={index} label={item.label} value={item.value} />)}
+                </Picker></View>
+                <TextInput style={styles.inputs} onChangeText={(description)=> this.setState({description})}
+                    autocorrect={false} value={this.state.description} placeholder='Описание'></TextInput>
 
-                <TextInput style={styles.inputs} onChangeText={(description)=> this.formData.description = description} 
-                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.description} placeholder='Description'></TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(description)=> this.formData.description = description} 
-                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.description} placeholder='Description'></TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(description)=> this.formData.description = description} 
-                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.description} placeholder='Description'></TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(description)=> this.formData.description = description} 
-                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.description} placeholder='Description'></TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(github)=> this.formData.github = github} 
-                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.github} placeholder='Github'></TextInput>
-
-               
-
-                    <div className="form-group">
-                        <label>Дата начала проекта</label>
-                        <input type="date" className="form-control" ref="startDate" required="required"/>
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Дата окончания</label>
-                        <input type="date" className="form-control" ref="endDate"/>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Позиции</label>
-                        <select type="text" className="form-control" ref="positions" multiple>
-                            <option value="">Выберите одну или несколько позиций</option>
-                            {selectOptions}
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Ссылка на Github</label>
-                        <input type="text" className="form-control" ref="githubLink"/>
-                    </div>
+                <TextInput style={styles.inputs} onChangeText={(githubLink)=> this.setState({githubLink})}
+                    autocorrect={false} value={this.state.githubLink} placeholder='Github'></TextInput>
                 
+                <Button containerStyle={{padding:10, height:50, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
+                    style={styles.submitButton} onPress={this.submit.bind(this)}>
+                    {this.props.projects.newProject.isLoading?
+                        <ActivityIndicator  color="#fff" animating={this.props.projects.newProject.isLoading} />: 
+                        'Create'
+                    }
+                </Button>
             </View>
         )
     }
@@ -109,7 +122,22 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20
     },
-    submitButton: {        
+    datepicker: {
+        marginLeft: 25,
+        marginRight: 25,
+        marginBottom: 10,
+        paddingBottom: 10,
+        paddingTop: 10,
+        borderBottomWidth: 0.7,
+        borderColor: '#333333',
+    },
+    picker: {
+        marginLeft: 25,
+        marginRight: 25,
+        borderBottomWidth: 0.7,
+        borderColor: '#333333',
+    },
+    submitButton: {
         color:"#fff",
         fontWeight: 'bold'
     },
