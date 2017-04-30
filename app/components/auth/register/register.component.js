@@ -10,14 +10,16 @@ export default class RegisterComponent extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if (nextProps.auth.isSucceeded && !nextProps.auth.error ){
+        if (nextProps.auth.isSuccessful && !nextProps.auth.error ){
             //redirect further
             this.props.navigation.navigate('Login', { name: this.formData.name, email: this.formData.email })
         }
     }
 
     registerPressed(){
-        this.props.onSubmit(this.formData);
+        if(this.formData.password === this.formData.repeatPassword){
+            this.props.onSubmit(this.formData);
+        }
     }
 
     render() {
@@ -34,8 +36,10 @@ export default class RegisterComponent extends Component {
                 <TextInput style={styles.inputs} onChangeText={(email)=> this.formData.email = email} autocorrect={false} placeholder='Email'></TextInput>
 
                 <TextInput style={styles.inputs} onChangeText={(password)=> this.formData.password = password} autocorrect={false} secureTextEntry={true} placeholder='Password'></TextInput>
+                
+                <TextInput style={styles.inputs} onChangeText={(repeatPassword)=> this.formData.repeatPassword = repeatPassword} autocorrect={false} secureTextEntry={true} placeholder='Repeat Password'></TextInput>
 
-                <Button containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
+                <Button containerStyle={{padding:10, height:50, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
                     style={styles.submitButton} onPress={this.registerPressed.bind(this)}>
                     {this.props.auth.isPending?
                         <ActivityIndicator  color="#fff" animating={this.props.auth.isPending} />: 
