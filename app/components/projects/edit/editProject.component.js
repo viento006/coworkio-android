@@ -45,7 +45,7 @@ export default class EditProjectComponent extends Component {
     };
 
     formatDate(date){
-        return date ? `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}` : 'Выберите год';
+        return date ? `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}` : 'Выберите дату';
     }
 
     submit(){
@@ -66,7 +66,7 @@ export default class EditProjectComponent extends Component {
                 </TouchableOpacity >
                 <TouchableOpacity style={styles.datepicker}
                     onPress={this.showPicker.bind(this, 'endDate')}>
-                    <View><Text style={styles.text}>Дата старта: {this.formatDate(this.state.endDate)}</Text></View>
+                    <View><Text style={styles.text}>Дата окончания: {this.formatDate(this.state.endDate)}</Text></View>
                 </TouchableOpacity  >
                 <View style={styles.picker}><Picker selectedValue={this.state.position}
                     onValueChange={(position) => this.setState({position})}>
