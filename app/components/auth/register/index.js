@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
     return  {
         onSubmit: (credentials, navigate) =>  {
             dispatch(registerUser(credentials));
-        } 
+        }
     }
 }
 

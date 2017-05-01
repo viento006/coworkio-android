@@ -16,17 +16,17 @@ const styles = StyleSheet.create({
 })
 
 const MenuComponent = 
-      <View style={styles.container}>
-        <Text style={styles.option}>
-          Option 1
-        </Text>
-        <Text style={styles.option}>
-          Option 2
-        </Text>
-        <Text style={styles.option}>
-          Option 3
-        </Text>
-      </View>
+    <View style={styles.container}>
+      <Text style={styles.option}>
+        Option 1
+      </Text>
+      <Text style={styles.option}>
+        Option 2
+      </Text>
+      <Text style={styles.option}>
+        Option 3
+      </Text>
+    </View>
 
 
 

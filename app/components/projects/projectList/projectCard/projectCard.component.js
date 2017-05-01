@@ -6,20 +6,12 @@ export default class ProjectCardComponent extends Component {
     constructor(props){
         super(props)
     }
-    
-    openProject() {
-
-    }
-
-    openBoard() {
-
-    }
 
 //TODO: add conditional styling based on the current field
     render() {
         const { project } = this.props.project; 
         return (
-            <View style={styles.card} onPress={this.openProject.bind(this)}>
+            <View style={styles.card}>
                 <View>
                     <Text style={styles.title}>
                         {project.title}
@@ -29,7 +21,7 @@ export default class ProjectCardComponent extends Component {
                     </Text>
                 </View>
                 <Button style={styles.submitButtonContent}
-                    containerStyle={styles.submitButton} onPress={this.openBoard.bind(this)}>
+                    containerStyle={styles.submitButton} onPress={this.props.openBoard}>
                     Открыть доску заданий
                 </Button>
             </View>
@@ -37,6 +29,10 @@ export default class ProjectCardComponent extends Component {
     }
 }
 
+ProjectCardComponent.propTypes = {
+    openBoard: React.PropTypes.func.isRequired,
+    project: React.PropTypes.any.isRequired
+}
 
 const styles = StyleSheet.create({
     card: {

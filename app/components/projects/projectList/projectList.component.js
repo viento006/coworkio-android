@@ -26,6 +26,10 @@ export default class ProjectListComponent extends Component {
         this.props.navigation.navigate('CreateProject', {isEdit: false})
     }
 
+    openBoard(project){
+        this.props.navigation.navigate('Board', { project })
+    }
+
     render() {
         console.log('*******************************************************************')
         console.log('RENDER: PROJECT LIST *************************************************')
@@ -54,7 +58,9 @@ export default class ProjectListComponent extends Component {
                             <Text style={styles.projectSectionHeader}>
                                 Активные проекты
                             </Text> 
-                            {activeProjects.map((project, index) => <ProjectCard key={index} project={project}></ProjectCard>)}
+                            {activeProjects.map((project, index) => 
+                                <ProjectCard key={index} project={project} openBoard={() => this.openBoard.call(this, project.project)}></ProjectCard>)
+                            }
                         </ScrollView>
                     }
                     { !!inactiveProjects.length &&
@@ -62,7 +68,9 @@ export default class ProjectListComponent extends Component {
                             <Text style={styles.projectSectionHeader}>
                                 Завершенные проекты
                             </Text>
-                            {inactiveProjects.map((project, index) => <ProjectCard key={index} project={project}></ProjectCard>)}
+                            {inactiveProjects.map((project, index) => 
+                                <ProjectCard key={index} project={project} openBoard={() => this.openBoard.call(this, project.project)}></ProjectCard>)
+                            }
                         </ScrollView>
                     }
                 </View>
