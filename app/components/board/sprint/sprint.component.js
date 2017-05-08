@@ -35,8 +35,10 @@ export default class SprintComponent extends Component {
                 onMomentumScrollEnd={this.onEndDrag.bind(this)}
                 onScroll={this.onScroll.bind(this)} automaticallyAdjustContentInsets={false}>
                 { this.props.boardConfig.statuses.map((status, index) => {
-
-                    return <BoardColumn title={status.title} key={index}></BoardColumn> })
+                    const availableStatuses = this.props.boardConfig.statuses.filter(s => s.title !== status.title);
+                    const tasks = this.props.tasks.filter((task) => task.status === status.order).map(task =>  { return {...task, availableStatuses}});
+                    return <BoardColumn title={status.title} key={index} tasks={tasks} updateTask={this.props.updateTask} viewTask={this.props.viewTask}
+                                createTask={()=>this.props.createTask(this.props.sprint.id, status.order)}></BoardColumn> })
                 }
             </ScrollView>
         );
@@ -46,6 +48,10 @@ export default class SprintComponent extends Component {
 SprintComponent.propTypes = {
     sprint: React.PropTypes.any.isRequired,
     boardConfig: React.PropTypes.any.isRequired,
+    tasks: React.PropTypes.any.isRequired,
+    updateTask: React.PropTypes.func.isRequired,
+    viewTask: React.PropTypes.func.isRequired,
+
 }
 
 const styles = StyleSheet.create({

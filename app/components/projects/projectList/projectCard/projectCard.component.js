@@ -15,7 +15,7 @@ export default class ProjectCardComponent extends Component {
                 <View>
                     <Text style={styles.title}>
                         {project.title}
-                    </Text> 
+                    </Text>
                     <Text style={styles.description}>
                         {project.description}
                     </Text>

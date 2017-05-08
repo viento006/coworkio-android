@@ -7,25 +7,33 @@ import Sprint from './sprint/sprint.component';
 export default class BoardComponent extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: `Доска заданий ${navigation.state.params.project.title}`,
-        //headerRight: <Button containerStyle={styles.addProjectButton} style={styles.addProjectButtonContent}
-        //                onPress={()=>{navigation.navigate('CreateProject', {isEdit: false})}}> + </Button>
     });
-
-    componentWillReceiveProps(nextProps){
-
-    }
 
     componentWillMount(){
         this.props.getTasks(this.props.navigation.state.params.project.id);
     }
 
+    createTask(sprintId, status){
+        const { project } = this.props.navigation.state.params;
+        
+        this.props.navigation.navigate('CreateTask',{ sprintId, status, projectId: project.id });
+    }
+
+    viewTask(task){
+        this.props.navigation.navigate('ViewTask', { task });
+    }
+
     render() {
         const { project } = this.props.navigation.state.params;
+        const { tasks } = this.props.tasks;
         return (
             <View style={styles.container}>
                 { project.sprints.map((sprint, index) => {
-                    
-                    return <Sprint sprint={sprint} key={index} boardConfig={project.board}></Sprint>})
+                    const sprintTasks = tasks.filter((task) => task.sprintId == sprint.id)
+                    return <Sprint sprint={sprint} key={index} boardConfig={project.board} 
+                                createTask={this.createTask.bind(this)} viewTask={this.viewTask.bind(this)}
+                                updateTask={this.props.updateTask} tasks={sprintTasks}></Sprint>
+                    })
                 }
             </View>
         );
@@ -33,7 +41,8 @@ export default class BoardComponent extends Component {
 }
 
 BoardComponent.propTypes = {
-    getTasks: React.PropTypes.func.isRequired
+    getTasks: React.PropTypes.func.isRequired,
+    updateTask: React.PropTypes.func.isRequired, 
 }
 
 const styles = StyleSheet.create({

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import BoardComponent from './board.component';
 
-import { fetchTasksByProjectId } from '../../common/actions/task.actions';
+import { fetchTasksByProjectId, updateTask } from '../../common/actions/task.actions';
 
 const mapStateToProps = (state) => {
     return  {
@@ -13,8 +13,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return  {
-        getTasks: (projectId) =>  {
+        getTasks: (projectId) => {
             dispatch(fetchTasksByProjectId(projectId));
+        },
+        updateTask: (task) => {
+            dispatch(updateTask(task));
         }
     }
 }

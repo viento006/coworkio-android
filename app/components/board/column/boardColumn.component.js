@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, Dimensions } from 'react-native';
 import Button from 'react-native-button';
 
+import Task from '../../task/board/task.component'
+
 export default class BoardColumnComponent extends Component {
     componentWillReceiveProps(nextProps){
         
@@ -14,14 +16,23 @@ export default class BoardColumnComponent extends Component {
             <View style={[styles.container ,{ width: width * .8 }]}>
                 <Text style={styles.projectSectionHeader}>
                     {this.props.title}
-                </Text> 
+                </Text>
+                { this.props.tasks.map((task, index)=>
+                    <Task task={task} key={index} updateTask={this.props.updateTask} viewTask={this.props.viewTask}></Task>)
+                }
+                <Button style={styles.submitButtonContent}
+                    containerStyle={styles.submitButton} onPress={this.props.createTask}>
+                   Добавить задание
+                </Button>
             </View>
         );
     }
 }
 
 BoardColumnComponent.propTypes = {
-    title: React.PropTypes.string
+    title: React.PropTypes.string,
+    updateTask: React.PropTypes.func.isRequired,
+    viewTask: React.PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -29,17 +40,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
         borderLeftWidth: 1,
-        borderRightWidth: 1,
+        padding: 10
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+    
+    projectSectionHeader: {
+        fontSize: 25
     }, 
     login: {
         textAlign: 'center',
@@ -53,14 +58,24 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20
     },
-    submitButton: {
-        color:"#fff",
-    }, 
     spinner: {
         alignItems: 'center',
         justifyContent: 'center',
         padding: 8,
-    }
+    },
+     submitButton: {
+        padding:10,
+        margin: 25,
+        height: 50,
+        overflow:'hidden',
+        borderRadius:4,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderStyle: 'dashed'
+    }, 
+    submitButtonContent: {
+        color:"#000",
+    },
 })
 
 
