@@ -30,7 +30,7 @@ export default class EditTaskComponent extends Component {
 
     componentWillReceiveProps(nextProps){
         if (!nextProps.tasks.newTask.isLoading && !nextProps.tasks.newTask.error ){
-            this.props.navigation.back()
+            this.props.navigation.goBack()
         }
     }
 
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 13,
         backgroundColor: 'lightgray',
-    }, 
+    },
     tagText: {
         marginRight: 10,
         marginLeft: 5

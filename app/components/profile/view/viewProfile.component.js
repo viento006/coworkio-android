@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
 import Button from 'react-native-button';
 
-import { priorityTypes, taskLevels, taskTypes } from '../enums';
+export default class ViewProfileComponent extends Component {
+    
+    constructor(){
+        super();
+    }
 
-export default class ViewTaskComponent extends Component {
     componentWillMount(){
-        this.props.getTask(this.props.navigation.state.params.task.id);
+        this.props.getProfile(this.props.navigation.state.params.profile.id);
     }
 
     static navigationOptions = ({ navigation, screenProps }) => ({
-        title: `${navigation.state.params.task.title}`,
+        title: `Ваш профиль`,
         headerRight: <Button containerStyle={styles.addProjectButton} style={styles.addProjectButtonContent}
-                       onPress={()=>{navigation.navigate('CreateTask', {isEdit: true, task: navigation.state.params.task})}}> ✎ </Button>
+                       onPress={()=>{navigation.navigate('EditProfile', { profile: navigation.state.params.profile})}}> ✎ </Button>
     });
 
     getFormattedDate(timestamp) {
@@ -35,18 +38,18 @@ export default class ViewTaskComponent extends Component {
     }
 
     render() {
-        const task = this.props.task.task || this.props.navigation.state.params.task;
+        const { profile } = this.props;
         console.log('*******************************************************************')
-        console.log('RENDER: VIEW TASK *************************************************')
+        console.log('RENDER: VIEW PROFILE *************************************************')
         console.log('*******************************************************************')
         return (            
             <View style={styles.container}>
-                { task.tags && task.tags.length ? <View style={styles.section}>
+                { profile.tags && profile.tags.length ? <View style={styles.section}>
                     <Text style={styles.sectionName}>
                         Теги:
                     </Text>
                     <Text style={styles.value}>
-                        {task.description}
+                        {profile.description}
                     </Text>
                 </View>: <View></View>
                 }
@@ -55,7 +58,7 @@ export default class ViewTaskComponent extends Component {
                         Описание
                     </Text>
                     <Text style={styles.value}>
-                        {task.description}
+                        {profile.description}
                     </Text>
                 </View>
                 <View style={styles.section}>
@@ -63,7 +66,7 @@ export default class ViewTaskComponent extends Component {
                         Уровень задачи
                     </Text>
                     <Text style={styles.value}>
-                        {taskLevels.find(l => l.value == task.taskLevel).label}
+                        
                     </Text>
                 </View>
                 <View style={styles.section}>
@@ -71,7 +74,7 @@ export default class ViewTaskComponent extends Component {
                         Тип задачи
                     </Text>
                     <Text style={styles.value}>
-                        {taskTypes.find(t => t.value == task.taskType).label}
+
                     </Text>
                 </View>
                 <View style={styles.section}>
@@ -79,7 +82,7 @@ export default class ViewTaskComponent extends Component {
                         Оценка
                     </Text>
                     <Text style={styles.value}>
-                        {task.estimate} часов
+                        {profile.estimate} часов
                     </Text>
                 </View>
                 <View style={styles.section}>
@@ -87,7 +90,7 @@ export default class ViewTaskComponent extends Component {
                         Приоритет
                     </Text>
                     <Text style={styles.value}>
-                        {priorityTypes.find(p => p.value == task.priority).label}
+                    
                     </Text>
                 </View>
                 <View style={styles.section}>
@@ -95,7 +98,7 @@ export default class ViewTaskComponent extends Component {
                         Готово к дате
                     </Text>
                     <Text style={styles.value}>
-                        {this.getFormattedDate(task.dueDate)}
+                        {this.getFormattedDate(profile.dueDate)}
                     </Text>
                 </View>
             </View>
@@ -103,8 +106,8 @@ export default class ViewTaskComponent extends Component {
     }
 }
 
-ViewTaskComponent.propTypes = {
-    getTask: React.PropTypes.func.isRequired
+ViewProfileComponent.propTypes = {
+    getProfile: React.PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -119,17 +122,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold'
     },
-    editTaskButton:{
+    editprofileButton:{
         height: 30,
         width: 30,
         borderRadius: 15,
         marginRight: 10
     },
-    editTaskButtonContent:{
+    editprofileButtonContent:{
         color: 'green',
         fontSize: 20,
     }
 })
 
 
-AppRegistry.registerComponent('ViewTaskComponent', () => ViewTaskComponent)
+AppRegistry.registerComponent('ViewProfileComponent', () => ViewProfileComponent)

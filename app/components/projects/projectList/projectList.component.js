@@ -18,9 +18,6 @@ export default class ProjectListComponent extends Component {
     componentWillMount(){
         this.props.fetchProjectsByUser()
     }
-    componentWillReceiveProps(nextProps) {
-        
-    }
 
     createProject() {
         this.props.navigation.navigate('CreateProject', {isEdit: false})

@@ -3,18 +3,36 @@ import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 
-import Menu from '../menu/menu.component';
+import Menu from '../menu';
 import Navigation from '../../navigation/main.navigation';
  class MainComponent extends Component {
+
+  constructor(){
+    super();
+    this.state = { isOpen: false };
+  }
+
+  navigateToProfile(profile){
+    //this.setState({ isOpen: false });
+    this.navigator && this.navigator.dispatch({ type: 'Navigation/NAVIGATE', routeName: 'ViewProfile', params: {profile} });    
+  }
+
+  navigateToDashboard(){
+    //this.setState({ isOpen: false });
+    this.navigator && this.navigator.dispatch({ type: 'Navigation/NAVIGATE', routeName: 'Dashboard'});
+  }
 
   render() {
     console.log('*******************************************************************')
     console.log('RENDER: MAIN *************************************************')
     console.log('*******************************************************************')
-
+    
+    const menu = <Menu isOpen={this.state.isOpen} navigateToDashboard={this.navigateToDashboard.bind(this)}
+                    navigateToProfile={this.navigateToProfile.bind(this)}/>
+    
     return (
-      <SideMenu menu={Menu}>
-        <Navigation></Navigation>
+      <SideMenu menu={menu}>
+        <Navigation ref={nav => { this.navigator = nav; }}/>
       </SideMenu>
     )
   }
