@@ -53,11 +53,25 @@ export default class EditProfileComponent extends Component {
     changeImage(){
         ImagePicker.openPicker({
             width: 300,
-            height: 400,
+            height: 300,
             cropping: true
         }).then(image => {
-            debugger;
-            console.log(image);
+            let url = 'https://api.cloudinary.com/v1_1/bookva/image/upload';
+
+            let fd = new FormData();
+            fd.append("upload_preset", "coworkio")
+            fd.append("file", {
+                uri: image.path,
+                type: image.mime, 
+                name: 'ava'
+            })
+
+            fetch(url, {
+                method: 'post',
+                body: fd
+            }).then(res => {
+                res.json().then((res) => this.setState({photoUrl: res.url}))
+            });
         });
     }
     submit(){
@@ -79,8 +93,7 @@ export default class EditProfileComponent extends Component {
             <ScrollView containerStyle={styles.container}>
                 <View style={styles.imagePicker}>
                     <TouchableOpacity onPress={this.changeImage.bind(this)}>
-                        <Image style={styles.image} 
-                            source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}/>
+                        <Image style={styles.image} source={this.state.photoUrl? {uri: this.state.photoUrl } : require('../../../images/placeholder.jpg')}/>
                     </TouchableOpacity>
                     <Text style={styles.imageText}>Нажмите на изображение чтобы сменить аватар</Text>
                 </View>
