@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "adb reverse tcp:8081 tcp:8081 && node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "react": "~15.4.0",
-    "react-native": "0.41.2",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.44.0",
     "react-native-button": "^1.8.2",
-    "react-native-image-crop-picker": "^0.13.0",
+    "react-native-image-crop-picker": "^0.12.10",
     "react-native-side-menu": "^0.20.1",
     "react-navigation": "^1.0.0-beta.6",
     "react-redux": "^5.0.2",
