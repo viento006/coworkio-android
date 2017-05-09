@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View,ScrollView, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
 import Button from 'react-native-button';
 
 export default class EditProjectComponent extends Component {
@@ -24,7 +24,7 @@ export default class EditProjectComponent extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: navigation.state.params 
-            ? (navigation.state.params.isEdit ? 'Edit': 'Create' ) +' project' 
+            ? (navigation.state.params.isEdit ? 'Редактировать': 'Создать' ) +' проект' 
             : ''
     });
 
@@ -57,9 +57,10 @@ export default class EditProjectComponent extends Component {
         console.log('RENDER: EDIT PROJECT *************************************************')
         console.log('*******************************************************************')
         return (
+            <ScrollView>
             <View style={styles.container}>
                 <TextInput style={styles.inputs} onChangeText={(title)=> this.setState({title})}
-                    autocorrect={false} placeholder='Title' value={this.state.title}></TextInput>
+                    autocorrect={false} placeholder='Название' />
                 <TouchableOpacity   style={styles.datepicker}
                     onPress={this.showPicker.bind(this, 'startDate')}>
                     <View><Text style={styles.text}>Дата старта: {this.formatDate(this.state.startDate)}</Text></View>
@@ -72,7 +73,7 @@ export default class EditProjectComponent extends Component {
                     onValueChange={(position) => this.setState({position})}>
                     {this.selectOptions.map((item, index) => <Picker.Item key={index} label={item.label} value={item.value} />)}
                 </Picker></View>
-                <TextInput style={styles.inputs} onChangeText={(description)=> this.setState({description})}
+                <TextInput style={styles.inputs} multiline={true}onChangeText={(description)=> this.setState({description})}
                     autocorrect={false} value={this.state.description} placeholder='Описание'></TextInput>
 
                 <TextInput style={styles.inputs} onChangeText={(githubLink)=> this.setState({githubLink})}
@@ -86,6 +87,7 @@ export default class EditProjectComponent extends Component {
                     }
                 </Button>
             </View>
+            </ScrollView>
         )
     }
 }
