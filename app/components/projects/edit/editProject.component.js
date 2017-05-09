@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View,ScrollView, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
 import Button from 'react-native-button';
 
+import colors from '../../../styles/colors';
+import formControlStyles from '../../../styles/form-controls';
+
 export default class EditProjectComponent extends Component {
     
     constructor(){
@@ -79,8 +82,8 @@ export default class EditProjectComponent extends Component {
                 <TextInput style={styles.inputs} onChangeText={(githubLink)=> this.setState({githubLink})}
                     autocorrect={false} value={this.state.githubLink} placeholder='Github'></TextInput>
                 
-                <Button containerStyle={{padding:10, height:50, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
-                    style={styles.submitButton} onPress={this.submit.bind(this)}>
+                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.submit.bind(this)}>
                     {this.props.projects.newProject.isLoading?
                         <ActivityIndicator  color="#fff" animating={this.props.projects.newProject.isLoading} />: 
                         'Create'

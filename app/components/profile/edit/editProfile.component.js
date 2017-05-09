@@ -4,6 +4,10 @@ import Button from 'react-native-button';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import { socialAccountTypes, universities, faculties } from '../enums';
+
+import colors from '../../../styles/colors';
+import formControlStyles from '../../../styles/form-controls';
+
 export default class EditProfileComponent extends Component {
     constructor(props){
         super();
@@ -17,11 +21,19 @@ export default class EditProfileComponent extends Component {
             //role
             email: profile.email || '',
             //password
+            projects: profile.projects || [],
             phoneNumber: profile.phoneNumber || '',
-            accounts: profile.accounts || '', //TODO:add control
+            accounts: profile.accounts || [], //TODO:add control
             github: profile.github || '',
             photoUrl: profile.photoUrl || '', //TODO:add control
-            university: profile.university || {},
+            university: {
+                university: profile.university.university || universities[0].label,
+                faculty: profile.university.faculty || faculties[0].label,
+                department: profile.university.department || '',
+                group: String(profile.university.group) || '',
+                startYear: String(profile.university.startYear) || '',
+                endYear: String(profile.university.endYear) || '',
+            },
             skills: profile.skills || [], //think of autosuggest
             tmpSkill: ''
         };
@@ -194,8 +206,8 @@ export default class EditProfileComponent extends Component {
                     }} keyboardType='numeric' autocorrect={false} placeholder='Год окончания' value={this.state.university.endYear}>
                 </TextInput>
 
-                <Button containerStyle={{padding:10, height:50, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
-                    style={styles.submitButton} onPress={this.submit.bind(this)}>
+                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.submit.bind(this)}>
                     {this.props.newProfile.isLoading?
                         <ActivityIndicator  color="#fff" animating={this.props.tasks.newTask.isLoading} />: 
                         'Создать'

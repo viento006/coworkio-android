@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity } from 'react-native';
 
-export default class MenuComponent extends React.Component {
+import colors from '../../styles/colors';
 
+export default class MenuComponent extends React.Component {
   componentWillMount(){
     this.props.fetchProfile();
   }
@@ -43,10 +44,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: colors.themeBackground,
   },
   option: {
-    color: 'black',
+    color: colors.themeFontColor,
     marginBottom: 5,
   },
 })

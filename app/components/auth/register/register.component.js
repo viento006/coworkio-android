@@ -1,55 +1,97 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, Modal } from 'react-native';
 import Button from 'react-native-button';
+
+import colors from '../../../styles/colors';
+import formControlStyles from '../../../styles/form-controls';
+
+import CustomInput from '../../common/form-controls/input.component';
+
 export default class RegisterComponent extends Component {
-    formData = {
-        name: '',
-        surname: '',
-        email: '',
-        password: ''
+
+    constructor(props){
+        super(props)
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            repeatPassword: '',
+            isError: false
+        };
     }
 
     componentWillReceiveProps(nextProps){
         if (nextProps.auth.isSuccessful && !nextProps.auth.error ){
             //redirect further
-            this.props.navigation.navigate('Login', { name: this.formData.name, email: this.formData.email })
+            this.props.navigation.navigate('Login', { name: this.state.firstName, email: this.state.email, password: this.state.password })
         }
     }
 
     registerPressed(){
-        if(this.formData.password === this.formData.repeatPassword){
-            this.props.onSubmit(this.formData);
+        if(this.state.password === this.state.repeatPassword){
+            let data = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+            }
+            this.props.onSubmit(data);
         }
+        else{
+            this.setModalVisibility(true, 'Пароль и подтверждение не совпадают!')
+        }
+    }
+    setModalVisibility(value, message){
+        this.setState({isError: value, errorMessage: message});
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Register
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={ this.state.isError } 
+                    onRequestClose={()=>{}}>
+                    <View style={[styles.modalContainer]}>
+                        <View style={[styles.modalInnerContainer]}>
+                            <Text>{this.state.errorMessage}</Text>
+                            <Button
+                                onPress={() => this.setModalVisibility(false)}
+                                style={styles.modalButton}>
+                                Закрыть
+                            </Button>
+                        </View>
+                    </View>
+                </Modal>
+
+                <Text style={styles.header}>
+                    Регистрация
                 </Text>
 
-                <TextInput style={styles.inputs} onChangeText={(name)=> this.formData.name = name} autocorrect={false} placeholder='Name'></TextInput>
+                <CustomInput title='Имя' value={this.state.firstName} onChangeText={firstName => this.setState({ firstName })}/>
 
-                <TextInput style={styles.inputs} onChangeText={(surname)=> this.formData.surname = surname} autocorrect={false} placeholder='Surname'></TextInput>  
+                <CustomInput title='Фамилия' value={this.state.lastName} onChangeText={lastName => this.setState({ lastName })}/>
 
-                <TextInput style={styles.inputs} onChangeText={(email)=> this.formData.email = email} autocorrect={false} placeholder='Email'></TextInput>
+                <CustomInput title='Email' value={this.state.email} onChangeText={email => this.setState({ email })}/>
 
-                <TextInput style={styles.inputs} onChangeText={(password)=> this.formData.password = password} autocorrect={false} secureTextEntry={true} placeholder='Password'></TextInput>
-                
-                <TextInput style={styles.inputs} onChangeText={(repeatPassword)=> this.formData.repeatPassword = repeatPassword} autocorrect={false} secureTextEntry={true} placeholder='Repeat Password'></TextInput>
+                <CustomInput title='Пароль' value={this.state.password} secureTextEntry={true}
+                    onChangeText={password => this.setState({ password })}/>
 
-                <Button containerStyle={{padding:10, height:50, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
-                    style={styles.submitButton} onPress={this.registerPressed.bind(this)}>
+                <CustomInput title='Повторите пароль' value={this.state.repeatPassword} secureTextEntry={true}
+                    onChangeText={repeatPassword => this.setState({ repeatPassword })}/>
+
+                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.registerPressed.bind(this)}>
                     {this.props.auth.isPending?
                         <ActivityIndicator  color="#fff" animating={this.props.auth.isPending} />: 
-                        'Register'
+                        'Зарегистрироваться'
                     }
                 </Button>
-
-                <Text style={styles.login} onPress={() => this.props.navigation.navigate('Login')}>
-                    or log in
-                </Text>
+                <Button containerStyle={formControlStyles.buttonContainer} style={formControlStyles.buttonContent} onPress={() => this.props.navigation.navigate('Login')}>
+                    Войти
+                </Button>
             </View>
         );
     }
@@ -63,12 +105,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: colors.defaultBackground,
+        padding: 20
+
     },
-    welcome: {
+    header: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        color: colors.blockContent
     },
     instructions: {
         textAlign: 'center',
@@ -81,11 +126,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontWeight: 'bold',
         marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
     },
     submitButton: {
         color:"#fff",
@@ -94,7 +134,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 8,
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    modalInnerContainer: {
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: '#fff', 
+        padding: 20
+    },  
+    modalButton: {
+        marginTop: 10,
+    },
 })
 
 

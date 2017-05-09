@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "adb reverse tcp:8081 tcp:8081 && node node_modules/react-native/local-cli/cli.js start",
+    "emulator": "emulator -avd meizu -sdcard mySdCardFile.img",
     "test": "jest"
   },
   "dependencies": {

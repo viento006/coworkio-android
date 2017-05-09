@@ -13,12 +13,12 @@ import Navigation from '../../navigation/main.navigation';
   }
 
   navigateToProfile(profile){
-    //this.setState({ isOpen: false });
+    this.setState({ isOpen: false });
     this.navigator && this.navigator.dispatch({ type: 'Navigation/NAVIGATE', routeName: 'ViewProfile', params: {profile} });    
   }
 
   navigateToDashboard(){
-    //this.setState({ isOpen: false });
+    this.setState({ isOpen: false });
     this.navigator && this.navigator.dispatch({ type: 'Navigation/NAVIGATE', routeName: 'Dashboard'});
   }
 

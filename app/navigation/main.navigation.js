@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation';
+import { StyleSheet } from 'react-native';
 
 import ProjectListComponent from '../components/projects/projectList';
 import EditProjectComponent from '../components/projects/edit';
@@ -8,6 +9,14 @@ import ViewTaskComponent from '../components/task/view';
 import ViewProfileComponent from '../components/profile/view';
 import EditProfileComponent from '../components/profile/edit';
 
+const styles = StyleSheet.create({
+    header:{
+        backgroundColor: '#6f7c91',
+    },
+    headerTitle:{
+        color: '#ffffff'
+    }
+})
 
 const routeConfiguration  = {
     Dashboard: { screen: ProjectListComponent },
@@ -20,7 +29,12 @@ const routeConfiguration  = {
 }
 
 const stackNavigatorConfiguration = {
-    initialRouteName: 'Dashboard'
+    initialRouteName: 'Dashboard',
+    navigationOptions:{
+        headerStyle: styles.header,
+        headerTitleStyle: styles.headerTitle,
+        headerBackTitleStyle: styles.headerTitleStyle
+    }
 }
 
 const Navigation = StackNavigator(

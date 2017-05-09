@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Button from 'react-native-button';
 
+import colors from '../../../../styles/colors';
+import formControlStyles from '../../../../styles/form-controls';
+
 export default class ProjectCardComponent extends Component {
     constructor(props){
         super(props)
@@ -20,8 +23,8 @@ export default class ProjectCardComponent extends Component {
                         {project.description}
                     </Text>
                 </View>
-                <Button style={styles.submitButtonContent}
-                    containerStyle={styles.submitButton} onPress={this.props.openBoard}>
+                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.props.openBoard}>
                     Открыть доску заданий
                 </Button>
             </View>
@@ -38,31 +41,20 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         padding: 20,
-        margin: 20,
-        borderWidth: 1,
-        borderColor: '#AAAAAA',
-        borderRadius: 3,
-        backgroundColor: '#FCFCFC',
+        marginTop: 10,
+        marginLeft: 15,
+        marginRight: 15,
+        backgroundColor: colors.cardBackground,
         justifyContent: 'space-between',
     },
     title: {
-        fontSize: 28,
-        fontWeight: 'bold'
+        fontSize: 20,
+        color: colors.darkFontColor,
     },
     description: {
         fontSize: 16,
         marginTop: 10,
-    },
-    submitButton: {
-        padding:10,
-        marginTop: 15,
-        height: 50,
-        overflow:'hidden',
-        borderRadius:4,
-        backgroundColor: 'green'
-    }, 
-    submitButtonContent: {
-        color:"#FFF",
+        color: colors.defaultFontColor,
     },
 });
 

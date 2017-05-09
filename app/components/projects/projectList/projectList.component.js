@@ -4,10 +4,13 @@ import Button from 'react-native-button';
 
 import ProjectCard from './projectCard/projectCard.component'
 
+import colors from '../../../styles/colors';
+import formControlStyles from '../../../styles/form-controls';
+
 export default class ProjectListComponent extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'Ваши проекты',
-        headerRight: <Button containerStyle={styles.addProjectButton} style={styles.addProjectButtonContent}
+        headerRight: <Button containerStyle={formControlStyles.navbarButtonContainer} style={formControlStyles.navbarButtonContent}
                         onPress={()=>{navigation.navigate('CreateProject', {isEdit: false})}}> + </Button>
     });
 
@@ -84,50 +87,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: colors.defaultBackground,
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        color: colors.darkFontColor,
     },
     projectSectionHeader: {
         fontSize: 24,
-        fontWeight: 'bold',
         marginTop: 20,
         marginLeft: 20,
+        color: colors.darkFontColor
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    }, 
-    register: {
-        textAlign: 'center',
-        color: '#333333', 
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
-    },
-    submitButton: {
-        color:"#FFF",
-    },
-    addProjectButton:{
-        backgroundColor: 'green',
-        height: 30,
-        width: 30,
-        borderRadius: 15,
-        marginRight: 10
-    },
-    addProjectButtonContent:{
-        color: '#FFF',
-        fontSize: 20,
-    }
 });
 
 

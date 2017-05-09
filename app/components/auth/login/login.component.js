@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, AsyncStorage, Modal, TouchableHighlight } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Image, TextInput, ActivityIndicator, AsyncStorage, Modal, TouchableHighlight, Keyboard, Animated } from 'react-native';
 import Button from 'react-native-button';
+
+import colors from '../../../styles/colors';
+import formControlStyles from '../../../styles/form-controls';
+
+import CustomInput from '../../common/form-controls/input.component';
 
 export default class LoginComponent extends Component {
     constructor(props){
         super(props)
+        let email = props.navigation.state.params && props.navigation.state.params.email;
         this.state = {
-            isError: false
+            isError: false,
+            email: email || 'test@test.com',
+            password:'123456',
+            imageSize: new Animated.Value(150)
         };
-    }
-
-    formData = {
-        email:'test@test.com',
-        password:'123456'
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -28,19 +32,51 @@ export default class LoginComponent extends Component {
             this.props.navigation.navigate('Main')
         }
     }
+     componentWillMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    keyboardDidShow() {
+        Animated.timing(
+            this.state.imageSize, 
+            {
+              toValue: 50,
+              duration: 1000,
+            },
+        ).start();
+    }
+
+    keyboardDidHide() {
+        Animated.timing(
+            this.state.imageSize, 
+            {
+              toValue: 150,
+              duration: 100,
+            },
+        ).start();
+    }
 
     loginPressed() {
-        this.props.onSubmit(this.formData, this.props.navigation.navigate )
+        let data = { email: this.state.email, password: this.state.password };
+        this.props.onSubmit(data);
     }
+
     setModalVisibility(value){
         this.setState({isError: value});
     }
+
     render() {
         console.log('*******************************************************************')
         console.log('RENDER: LOGIN *************************************************')
         console.log('*******************************************************************')
 
-        const navParams  = this.formData || this.props.navigation.state.params
+        const userData  = this.state;
 
         return (
             <View style={styles.container}>
@@ -51,40 +87,42 @@ export default class LoginComponent extends Component {
                     onRequestClose={()=>{}}>
                     <View style={[styles.modalContainer]}>
                         <View style={[styles.modalInnerContainer]}>
-                            <Text>Email and password that you have entered are incorrect</Text>
+                            <Text>Неправильные email и пароль</Text>
                             <Button
                                 onPress={() => this.setModalVisibility(false)}
                                 style={styles.modalButton}>
-                                Close
+                                Закрыть
                             </Button>
                         </View>
                     </View>
                 </Modal>
-                <Text style={styles.welcome}>
-                    Login
-                </Text>
-                {!!navParams.name &&
+                <View style={styles.header}>
+                    <Animated.Image style={{height: this.state.imageSize, width: this.state.imageSize}} source={require('../../../images/login-icon.png')}/>
+                </View>
+                <View style={styles.content}>
+                {!!userData.name &&
                     <Text style={styles.instructions}>
-                        {navParams.name}, your account has been sucessfully created. You can log in now
+                        {userData.name}, ваш аккаунт был успешно создан. Вы можете войти в приложение
                     </Text>
                 }
-                <TextInput style={styles.inputs} onChangeText={(email)=> this.formData.email = email} 
-                    autocorrect={false} placeholder='Email' defaultValue={navParams.email}></TextInput>
+                
+                <CustomInput title='Email' value={userData.email}
+                     onChangeText={email => this.setState({ email })}/>
 
-                <TextInput style={styles.inputs} onChangeText={(password)=> this.formData.password = password} 
-                    autocorrect={false} secureTextEntry={true} defaultValue={navParams.password} placeholder='Password'></TextInput>
+                <CustomInput title='Пароль' value={userData.password}
+                     secureTextEntry={true} onChangeText={password => this.setState({password})} />
 
-                <Button containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'green'}} 
-                    style={styles.submitButton} onPress={this.loginPressed.bind(this)}>
+                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.loginPressed.bind(this)}>
                     {this.props.auth.isPending?
-                        <ActivityIndicator  color="#fff" animating={this.props.auth.isPending} />: 
-                        'Log in'
+                        <ActivityIndicator color="#fff" animating={this.props.auth.isPending} />: 
+                        'Войти'
                     }
                 </Button>
-
-                <Text style={styles.register} onPress={() => this.props.navigation.navigate('Register')}>
-                    or register
-                </Text>
+                <Button containerStyle={formControlStyles.buttonContainer} style={formControlStyles.buttonContent} onPress={() => this.props.navigation.navigate('Register')}>
+                    Зарегистрироваться
+                </Button>
+                </View>
             </View>
         )
     }
@@ -98,7 +136,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: colors.defaultBackground,
+    },
+    header: {
+        backgroundColor: colors.themeBackground,
+        flex: 1,
+        height: 250,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    headerImage: {
+        width: 150,
+        height: 150,
+    },
+    content: {
+        flex: 1,
+        padding: 20
     },
     welcome: {
         fontSize: 20,
@@ -109,23 +162,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#333333',
         marginBottom: 5,
-    }, 
-    register: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
-    },
-    submitButton: {
-        color:"#fff",
-        fontWeight: 'bold'
-    },
+    },   
     spinner: {
         alignItems: 'center',
         justifyContent: 'center',
