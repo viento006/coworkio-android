@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     title:{
         fontWeight: 'bold',
         color: colors.blockTitle,
-
     },
     value:{
         paddingBottom:10,
@@ -59,7 +58,8 @@ const styles = StyleSheet.create({
     },
     hiddenValue:{
         fontSize: 0,
-        width: 0
+        width: 0,
+        color: colors.cardBackground
     },
     input:{
         flex:1,

@@ -11,11 +11,11 @@ export default class TaskComponent extends Component {
     }
 
     statusColors = {
-        LOW: '#3BFF00',
-        MINOR: '#7FFFFF',
-        NORMAL: '#FFE97F',
-        MAJOR: '#FF7F7F',
-        BLOCKER: '#FF0000',
+        LOW: '#aaffcc',
+        MINOR: '#eeffaa',
+        NORMAL: '#ffeeaa',
+        MAJOR: '#ffccaa',
+        BLOCKER: '#de8787',
     }
 
     moveTask(status){

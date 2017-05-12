@@ -1,16 +1,38 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import colors from '../../../styles/colors';
 
+import { positions } from './enums';
+import InfoCardSection from '../infoCard/infoCard-section.component';
+
 export default class VacancyComponent extends Component {
     render() {
+        let vacancy = this.props.item;
+        let mappedType = positions.find((p) => p.value === vacancy.type)
+        vacancy.typeLabel = mappedType? mappedType.label: vacancy.type;
+        vacancy.employeeName = vacancy.employee.firstName || vacancy.employee.lastName 
+            ? vacancy.employee.firstName+' '+ vacancy.employee.lastName
+            : vacancy.employee.email;
         return (
-            <View style={styles.tag}>
-                <Text style={styles.tagText}>{ this.props.title }</Text>
+            <View style={styles.vacancy}>
+                <View style={styles.container}>
+                    <InfoCardSection title='Название' value={vacancy.title} />
+                    <InfoCardSection title='Описание' value={vacancy.description} />
+                    <InfoCardSection title='Навык' value={vacancy.typeLabel} />
+                        
+                    <Text style={styles.property}>Исполнитель:</Text>
+                    {vacancy.employeeId? 
+                        <View style={[styles.section, styles.imageSection]}>
+                            <Image style={styles.image} source={vacancy.employee.photoUrl? { uri: vacancy.employee.photoUrl } : require('../../../images/placeholder.jpg')}/>
+                            <Text style={styles.text}>{vacancy.employeeName}</Text>
+                        </View>:
+                        <Text style={styles.text}>Не назначен</Text>
+                    }
+                </View>
                 { this.props.onRemove &&
                     <TouchableOpacity onPress={() => this.props.onRemove(this.props.index)}>
-                        <Text style={styles.tagCloseText}>x</Text>
+                        <Text style={styles.closeText}>x</Text>
                     </TouchableOpacity>
                 }
             </View>
@@ -19,24 +41,41 @@ export default class VacancyComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    tag: {
+    vacancy: {
         flexDirection: 'row',
-        alignItems: 'center',
-        paddingLeft: 5,
-        paddingRight: 5,
+        padding: 5,
         marginTop: 5,
         marginRight: 5,
         borderRadius: 5,
         borderColor: colors.border,
         borderWidth: .5,
         backgroundColor: colors.cardBackground,
-        height: 24
+        alignItems: 'flex-start'
     },
-    tagText: {
+    container:{
+        flex: 1
+    },
+    imageSection:{
+        flexDirection: 'row'
+    },
+    image: {
+        width: 30,
+        borderRadius: 15,
+        height: 30,
+        marginRight: 10
+    },
+    property: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: colors.darkFontColor,
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    text: {
         marginRight: 5,
         marginLeft: 5
     },
-    tagCloseText: {
+    closeText: {
         color: 'red',
         textAlign: 'center',
         fontSize: 14,

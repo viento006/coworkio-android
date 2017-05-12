@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     title:{
         fontWeight: 'bold',
         color: colors.blockTitle,
+        marginBottom: -10
     },
     value:{
         color: colors.blockContent,

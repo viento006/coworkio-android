@@ -3,9 +3,12 @@ import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity } from
 
 import colors from '../../../styles/colors';
 
-import Button from 'react-native-button';
+import { positions } from '../vacancy/enums';
+
+import Button from './submitButton.component';
 import Input from './input.component';
-import TagList from '../vacancy/vacancyList.component';
+import Picker from './picker.component';
+import VacancyList from '../vacancy/vacancyList.component';
 
 export default class TagInputComponent extends Component {
     constructor(props){
@@ -16,21 +19,33 @@ export default class TagInputComponent extends Component {
             title: '',
             description: '',
             type: '',
-            employeeId: ''
+            employeeId: '',
+            employee: {}
         };
     }
     componentWillReceiveProps(nextProps){
         this.setState({items: nextProps.items});
     }
+//TODO: map existimg positions to users by id
+    addPosition(){
+        let newPosition = {
+            title: this.state.title,
+            description: this.state.description,
+            type: this.state.type,
+            employeeId: this.state.employee.id,
+            employee: this.state.employee
+        };
 
-    addTag(){
-        let items = [...this.state.items, this.state.value];
-        this.setState({value: ''});
-        this.props.onItemsChange(items);
-    }
+        let items = [...this.state.items, newPosition];
 
-    removeTag(index){
-        let items = this.state.items.splice(index, 1);
+        this.setState({
+            title: '',
+            description: '',
+            type: '',
+            employeeId: '',
+            employee: {}
+        });
+
         this.props.onItemsChange(items);
     }
 
@@ -39,14 +54,17 @@ export default class TagInputComponent extends Component {
             <View style={[this.props.style, styles.container]}>
                 <Text style={styles.title}>{this.props.title}</Text>
 
-                <TagList items={this.state.items} onItemsChange={this.props.onItemsChange}/>
+                <VacancyList items={this.state.items} onItemsChange={this.props.onItemsChange}/>
 
                  <View style={styles.addTagContainer}>
-                    <Text style={styles.value}>{this.props.hint}</Text>
-                    <Input style={styles.addTagInput} onChangeText={(value)=> this.setState({ value })} value={this.state.value} />
+                    <Input title='Название' value={this.state.title} onChangeText={title => this.setState({ title })}/>
+                    <Input title='Описание' multiline={true} value={this.state.description} onChangeText={description => this.setState({ description })}/>
+
+                    <Picker items={positions} value={this.state.type} title="Навык" onValueChange={(type) => this.setState({type})}/>
+                    <Picker items={this.props.users} value={this.state.employee} title="" onValueChange={(employee) => this.setState({employee})}/>
+
                     
-                    <Button containerStyle={styles.addTagButton} style={styles.addTagButtonContent} onPress={this.addTag.bind(this)}>
-                        +
+                    <Button onPress={this.addPosition.bind(this)} title='Добавить' isSubmit={false}>
                     </Button>
                 </View>
             </View>
@@ -63,13 +81,13 @@ const styles = StyleSheet.create({
     title:{
         fontWeight: 'bold',
         color: colors.blockTitle,
+        fontSize: 16,
+        marginBottom: 15
     },
     value:{
         color: colors.blockContent,
     },
     addTagContainer:{
-        flexDirection: 'row',
-        alignItems: 'center',
     },
     addTagInput: {
         flex: 1,

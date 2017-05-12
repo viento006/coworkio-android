@@ -6,7 +6,7 @@ export default class InfoCardComponent extends Component {
     render() {
         if(this.props.isVisible || this.props.isVisible === undefined){
             return (
-                <View style={styles.section}>
+                <View style={[this.props.style, styles.section]}>
                     {this.props.title && 
                         <Text style={styles.sectionName}>
                             {this.props.title}

@@ -10,7 +10,8 @@ import InfoCard from '../../common/infoCard/infoCard.component';
 import { Form, Input, Datepicker, VacancyInput, SubmitButton } from '../../common/form-controls';
 
 export default class EditProjectComponent extends Component {
-    
+    users = [];
+
     constructor(props){
         super(props);
         this.state = {
@@ -22,11 +23,19 @@ export default class EditProjectComponent extends Component {
             githubLink:'',
         };
     }
-
+    componentWillMount(){
+        this.props.getUsers();
+    }
     componentWillReceiveProps(nextProps){
         if (!nextProps.projects.newProject.isLoading && !nextProps.projects.error && nextProps.projects.newProject.projectID ){
             this.props.navigation.navigate('Dashboard')
         }
+        this.users = [{label: 'Не назначен', value: {}}, ...nextProps.users.profiles.map(profile => { 
+            return {
+                label: profile.firstName || profile.lastName ? `${profile.firstName} ${profile.lastName}` : profile.email,
+                value: profile
+            }
+        })];
     }
 
     static navigationOptions = ({ navigation, screenProps }) => ({
@@ -66,7 +75,7 @@ export default class EditProjectComponent extends Component {
                 </InfoCard>
 
                 <InfoCard>
-                    <VacancyInput title='Позиции на проекте' hint='Введите тег' items={this.state.positions} onItemsChange={(positions)=> this.setState({positions})}/>
+                    <VacancyInput title='Позиции на проекте' users={this.users} items={this.state.positions} onItemsChange={(positions)=> this.setState({positions})}/>
                 </InfoCard>
 
                 <SubmitButton isLoading={this.props.projects.newProject.isLoading} title='Создать' onPress={this.submit.bind(this)}/>

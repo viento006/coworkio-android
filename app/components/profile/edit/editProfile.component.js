@@ -9,6 +9,7 @@ import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
 
 import { Form, Input, Picker, TagInput } from '../../common/form-controls';
+import InfoCard from '../../common/infoCard/infoCard.component';
 
 export default class EditProfileComponent extends Component {
     constructor(props){
@@ -107,58 +108,66 @@ export default class EditProfileComponent extends Component {
         
         return (
             <Form>
-                <View style={styles.imagePicker}>
+                <InfoCard style={styles.imagePicker}>
                     <TouchableOpacity onPress={this.changeImage.bind(this)}>
                         <Image style={styles.image} source={this.state.photoUrl? {uri: this.state.photoUrl } : require('../../../images/placeholder.jpg')}/>
                     </TouchableOpacity>
                     <Text style={styles.imageText}>Нажмите на изображение чтобы сменить аватар</Text>
-                </View>
-                
-                <Input title='Имя' value={this.state.firstName} onChangeText={firstName => this.setState({ firstName })}/>
-                <Input title='Отчество' value={this.state.middleName} onChangeText={middleName => this.setState({ middleName })}/>
-                <Input title='Фамилия' value={this.state.lastName} onChangeText={lastName => this.setState({ lastName })}/>
+                </InfoCard>
 
-                <Input title='Электронная почта' value={this.state.email} onChangeText={email => this.setState({ email })}/>
-                <Input title='Номер телефона' value={this.state.phoneNumber} onChangeText={phoneNumber => this.setState({ phoneNumber })} keyboardType='numeric'/>
-                <Input title='Аккаунт GitHub' value={this.state.github} onChangeText={github => this.setState({ github })}/>
+                <InfoCard>
+                    <Input title='Имя' value={this.state.firstName} onChangeText={firstName => this.setState({ firstName })}/>
+                    <Input title='Отчество' value={this.state.middleName} onChangeText={middleName => this.setState({ middleName })}/>
+                    <Input title='Фамилия' value={this.state.lastName} onChangeText={lastName => this.setState({ lastName })}/>
+                </InfoCard>
 
-                <TagInput title='Навыки' hint='Введите навык' items={this.state.skills} onItemsChange={(skills)=> this.setState({skills})}/>
+                <InfoCard>
+                    <Input title='Электронная почта' value={this.state.email} onChangeText={email => this.setState({ email })}/>
+                    <Input title='Номер телефона' value={this.state.phoneNumber} onChangeText={phoneNumber => this.setState({ phoneNumber })} keyboardType='numeric'/>
+                    <Input title='Аккаунт GitHub' value={this.state.github} onChangeText={github => this.setState({ github })}/>
+                </InfoCard>
 
-                <Picker items={universities} value={this.state.university.university} title="Университет" onValueChange={(name) => {
-                    let { university } = this.state;
-                    university.university = name;
-                    this.setState({university})
-                }}/>
+                <InfoCard>
+                    <TagInput title='Навыки' hint='Введите навык' items={this.state.skills} onItemsChange={(skills)=> this.setState({skills})}/>
+                </InfoCard>
 
-                <Picker items={faculties} value={this.state.university.faculty} title="Факультет" onValueChange={(faculty) => {
-                    let { university } = this.state;
-                    university.faculty = faculty;
-                    this.setState({university})
-                }}/>
-
-                <Input title='Специальность' value={this.state.university.department} onChangeText={(department)=> {
-                    let { university } = this.state;
-                        university.department = department;
-                        this.setState({university})
-                    }}/>
-
-                <Input title='Номер группы' value={this.state.university.group} onChangeText={(group)=> {
-                    let { university } = this.state;
-                        university.group = group;
-                        this.setState({university})
-                    }}/>
-
-                <Input title='Год начала обучения' value={this.state.university.startYear} keyboardType='numeric' onChangeText={(startYear)=> {
-                    let { university } = this.state;
-                        university.startYear = startYear;
-                        this.setState({university})
-                    }}/>
-
-                <Input title='Год окончания' value={this.state.university.endYear} keyboardType='numeric' onChangeText={(endYear)=> { 
+                <InfoCard>
+                    <Picker items={universities} value={this.state.university.university} title="Университет" onValueChange={(name) => {
                         let { university } = this.state;
-                        university.endYear = endYear;
+                        university.university = name;
                         this.setState({university})
                     }}/>
+
+                    <Picker items={faculties} value={this.state.university.faculty} title="Факультет" onValueChange={(faculty) => {
+                        let { university } = this.state;
+                        university.faculty = faculty;
+                        this.setState({university})
+                    }}/>
+
+                    <Input title='Специальность' value={this.state.university.department} onChangeText={(department)=> {
+                        let { university } = this.state;
+                            university.department = department;
+                            this.setState({university})
+                        }}/>
+
+                    <Input title='Номер группы' value={this.state.university.group} onChangeText={(group)=> {
+                        let { university } = this.state;
+                            university.group = group;
+                            this.setState({university})
+                        }}/>
+
+                    <Input title='Год начала обучения' value={this.state.university.startYear} keyboardType='numeric' onChangeText={(startYear)=> {
+                        let { university } = this.state;
+                            university.startYear = startYear;
+                            this.setState({university})
+                        }}/>
+
+                    <Input title='Год окончания' value={this.state.university.endYear} keyboardType='numeric' onChangeText={(endYear)=> { 
+                            let { university } = this.state;
+                            university.endYear = endYear;
+                            this.setState({university})
+                        }}/>
+                </InfoCard>
 
                 <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
                         style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.submit.bind(this)}>
@@ -181,24 +190,20 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: colors.defaultBackground,
-        padding: 20,
+        padding: 15,
+        marginTop: 0
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    imagePicker:{
+    imagePicker: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10
     },
-    image:{
+    image: {
         width: 100,
         height: 100,
         marginRight: 15
     },
-    imageText:{
+    imageText: {
         flex:1
     },
     instructions: {
@@ -233,54 +238,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 8,
     },
-    tagList: {
-        flexDirection: 'row',
-        marginLeft: 25,
-        marginRight: 25,
-        marginTop: 20,
-        marginBottom: -10,
-    },
-    tag: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 5,
-        borderRadius: 13,
-        backgroundColor: 'lightgray',
-    },
-    tagText: {
-        marginRight: 10,
-        marginLeft: 5
-    },
-    tagClose: {
-        height: 26,
-        width: 26,
-        borderRadius: 13,
-        backgroundColor: 'red',
-    },
-    tagCloseText: {
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    addTagContainer:{
-        flexDirection: 'row',
-    },
-    addTagInput: {
-        flex:1
-    },
-    addTagButton:{
-        height: 30,
-        width: 30,
-        borderRadius: 15,
-        marginTop: 15,
-        marginRight: 15,
-        backgroundColor: 'green'
-    },
-    addTagButtonContent:{
-        color: 'white',
-        fontSize: 20,
-    }
+    
 })
 
 
