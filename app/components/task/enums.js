@@ -1,7 +1,7 @@
 export const priorityTypes= [
     {label:'Низкий', value:'LOW'},
     {label:'Незначительный', value:'MINOR'},
-    {label:'Средний', value:'NORMAl'},
+    {label:'Средний', value:'NORMAL'},
     {label:'Высокий', value:'MAJOR'},
     {label:'Блокирующий', value:'BLOCKER'},
 ];

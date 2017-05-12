@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, Picker } from 'react-native';
+
+import colors from '../../../styles/colors';
+
+import TagList from '../../common/tag/tagList.component';
+
 export default class TaskComponent extends Component {
     componentWillReceiveProps(nextProps){
         
@@ -13,10 +18,6 @@ export default class TaskComponent extends Component {
         BLOCKER: '#FF0000',
     }
 
-    viewTask(){
-
-    }
-
     moveTask(status){
         this.props.updateTask({...this.props.task, status})
     }
@@ -27,18 +28,25 @@ export default class TaskComponent extends Component {
         return (
             <TouchableOpacity onPress={() => this.props.viewTask(task)}>
                 <View style={styles.container}>
-                    <View style={styles.content}>
-                        <View style={[styles.statusLabel, {backgroundColor: this.statusColors[task.priority]}]}></View>
-                        <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
-                                {task.title}
-                        </Text>
-                    </View>
-                    <View style={styles.picker}>
-                        <Picker prompt='Переместить в...' onValueChange={(status) => this.moveTask(status)}>
-                            {task.availableStatuses.map((item, index) => 
-                                <Picker.Item key={index} label={'⋮ '+ item.title} value={item.order} />)
-                            }
-                        </Picker>
+                    <View style={[styles.statusLabel, {backgroundColor: this.statusColors[task.priority]}]}></View>
+                    <View style={styles.contentWrapper}>
+                        <View style={styles.content}>
+                            <View style={styles.wrapper}>
+                                <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
+                                    {task.title}
+                                </Text>
+                            </View>
+                            <View style={styles.picker}>
+                                <Picker prompt='Переместить в...' onValueChange={(status) => this.moveTask(status)}>
+                                    {task.availableStatuses.map((item, index) => 
+                                        <Picker.Item key={index} label={'⋮ '+ item.title} value={item.order} />)
+                                    }
+                                </Picker>
+                            </View>
+                        </View>
+                        {!!task.tags && !!task.tags.length &&
+                            <TagList items={task.tags}/>
+                        }
                     </View>
                 </View>
             </TouchableOpacity>
@@ -49,18 +57,26 @@ export default class TaskComponent extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor: '#FFFFFF',
-        height: 50,
+        backgroundColor: colors.cardBackground,
+        minHeight: 50,
         margin: 5,
-        borderWidth: .5,
-        borderColor: 'gray',
-        justifyContent: 'space-between',
+        elevation: 1
     },
     statusLabel:{
         width: 10,
     },
+    contentWrapper:{
+        flex: 1,
+        paddingBottom: 5,
+        paddingLeft: 5
+    },
     content:{
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: -10
+    },
+    wrapper: {
+
     },
     title: {
         fontSize: 20,

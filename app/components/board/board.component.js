@@ -4,6 +4,8 @@ import Button from 'react-native-button';
 
 import Sprint from './sprint/sprint.component';
 
+import colors from '../../styles/colors';
+
 export default class BoardComponent extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: `Доска заданий ${navigation.state.params.project.title}`,
@@ -49,38 +51,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: colors.buttonBackground,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    }, 
-    login: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
-    },
-    submitButton: {
-        color:"#fff",
-    }, 
-    spinner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 8,
-    }
 })
 
 

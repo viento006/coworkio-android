@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, ScrollView, Text, View, Image, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Image, TouchableOpacity , ActivityIndicator } from 'react-native';
 import Button from 'react-native-button';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -7,6 +7,8 @@ import { socialAccountTypes, universities, faculties } from '../enums';
 
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
+
+import { Form, Input, Picker, TagInput } from '../../common/form-controls';
 
 export default class EditProfileComponent extends Component {
     constructor(props){
@@ -27,8 +29,8 @@ export default class EditProfileComponent extends Component {
             github: profile.github || '',
             photoUrl: profile.photoUrl || '', //TODO:add control
             university: {
-                university: profile.university.university || universities[0].label,
-                faculty: profile.university.faculty || faculties[0].label,
+                university: profile.university.university || universities[0].value,
+                faculty: profile.university.faculty || faculties[0].value,
                 department: profile.university.department || '',
                 group: String(profile.university.group) || '',
                 startYear: String(profile.university.startYear) || '',
@@ -62,6 +64,7 @@ export default class EditProfileComponent extends Component {
         let skills = this.state.skills.splice(index, 1);
         this.setState({skills});
     }
+
     changeImage(){
         ImagePicker.openPicker({
             width: 300,
@@ -86,6 +89,7 @@ export default class EditProfileComponent extends Component {
             });
         });
     }
+
     submit(){
         //validate
 
@@ -102,118 +106,68 @@ export default class EditProfileComponent extends Component {
         console.log(this.props.profile);
         
         return (
-            <ScrollView containerStyle={styles.container}>
+            <Form>
                 <View style={styles.imagePicker}>
                     <TouchableOpacity onPress={this.changeImage.bind(this)}>
                         <Image style={styles.image} source={this.state.photoUrl? {uri: this.state.photoUrl } : require('../../../images/placeholder.jpg')}/>
                     </TouchableOpacity>
                     <Text style={styles.imageText}>Нажмите на изображение чтобы сменить аватар</Text>
                 </View>
-                <TextInput style={styles.inputs} onChangeText={(firstName)=> this.setState({firstName})}
-                    autocorrect={false} placeholder='Имя' value={this.state.firstName}>
-                </TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(middleName)=> this.setState({middleName})}
-                    autocorrect={false} placeholder='Отчество' value={this.state.middleName}>
-                </TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(lastName)=> this.setState({lastName})}
-                    autocorrect={false} placeholder='Фамилия' value={this.state.lastName}>
-                </TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(email)=> this.setState({email})}
-                    autocorrect={false} placeholder='Электронная почта' value={this.state.email}>
-                </TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(phoneNumber)=> this.setState({phoneNumber})}
-                    keyboardType='numeric' autocorrect={false} placeholder='Номер телефона' value={this.state.phoneNumber}>
-                </TextInput>
-
-                <TextInput style={styles.inputs} onChangeText={(github)=> this.setState({github})}
-                    autocorrect={false} placeholder='Аккаунт GitHub' value={this.state.github}>
-                </TextInput>
-
-                <View style={styles.tagList}>
-                    {this.state.skills.map((skill, index) => 
-                        <View key={index} style={styles.tag}>
-                            <Text style={styles.tagText}>{skill}</Text>
-                            <TouchableOpacity style={styles.tagClose} onPress={() => this.removeSkill.bind(this)(index)}>
-                                <Text style={styles.tagCloseText}>x</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                </View>
-
-                 <View style={styles.addTagContainer}>
-                    <TextInput style={[styles.inputs, styles.addTagInput]} onChangeText={(tmpSkill)=> this.setState({tmpSkill})}
-                        autocorrect={false} placeholder='Введите навык' value={this.state.tmpSkill}>
-                    </TextInput>
-                    <Button containerStyle={styles.addTagButton} style={styles.addTagButtonContent} onPress={this.addSkill.bind(this)}>
-                        +
-                    </Button>
-                </View>
-
-                <View style={styles.picker}>
-                    <Picker selectedValue={this.state.university.university}
-                        onValueChange={(name) => {
-                        let { university } = this.state;
-                        university.university = name;
-                        this.setState({university})
-                    }}>
-                        {universities.map((item, index) => <Picker.Item key={index} label={item.label} value={item.label} />)}
-                    </Picker>
-                </View>
                 
-                <View style={styles.picker}>
-                    <Picker selectedValue={this.state.university.faculty}
-                        onValueChange={(faculty) => {
-                            let { university } = this.state;
-                            university.faculty = faculty;
-                            this.setState({university})
-                        }}>
-                        {faculties.map((item, index) => <Picker.Item key={index} label={item.label} value={item.label} />)}
-                    </Picker>
-                </View>
-                
-                <TextInput style={styles.inputs} onChangeText={(department)=> {
+                <Input title='Имя' value={this.state.firstName} onChangeText={firstName => this.setState({ firstName })}/>
+                <Input title='Отчество' value={this.state.middleName} onChangeText={middleName => this.setState({ middleName })}/>
+                <Input title='Фамилия' value={this.state.lastName} onChangeText={lastName => this.setState({ lastName })}/>
+
+                <Input title='Электронная почта' value={this.state.email} onChangeText={email => this.setState({ email })}/>
+                <Input title='Номер телефона' value={this.state.phoneNumber} onChangeText={phoneNumber => this.setState({ phoneNumber })} keyboardType='numeric'/>
+                <Input title='Аккаунт GitHub' value={this.state.github} onChangeText={github => this.setState({ github })}/>
+
+                <TagInput title='Навыки' hint='Введите навык' items={this.state.skills} onItemsChange={(skills)=> this.setState({skills})}/>
+
+                <Picker items={universities} value={this.state.university.university} title="Университет" onValueChange={(name) => {
+                    let { university } = this.state;
+                    university.university = name;
+                    this.setState({university})
+                }}/>
+
+                <Picker items={faculties} value={this.state.university.faculty} title="Факультет" onValueChange={(faculty) => {
+                    let { university } = this.state;
+                    university.faculty = faculty;
+                    this.setState({university})
+                }}/>
+
+                <Input title='Специальность' value={this.state.university.department} onChangeText={(department)=> {
                     let { university } = this.state;
                         university.department = department;
                         this.setState({university})
-                    }}
-                    autocorrect={false} placeholder='Специальность' value={this.state.university.department}>
-                </TextInput>
-                
-                <TextInput style={styles.inputs} onChangeText={(group)=> {
+                    }}/>
+
+                <Input title='Номер группы' value={this.state.university.group} onChangeText={(group)=> {
                     let { university } = this.state;
                         university.group = group;
                         this.setState({university})
-                    }}
-                    autocorrect={false} placeholder='Номер группы' value={this.state.university.group}>
-                </TextInput>
-                
-                <TextInput style={styles.inputs} onChangeText={(startYear)=> {
+                    }}/>
+
+                <Input title='Год начала обучения' value={this.state.university.startYear} keyboardType='numeric' onChangeText={(startYear)=> {
                     let { university } = this.state;
                         university.startYear = startYear;
                         this.setState({university})
-                    }}
-                    keyboardType='numeric' autocorrect={false} placeholder='Год начала обучения' value={this.state.university.startYear}>
-                </TextInput>
-                
-                <TextInput style={styles.inputs} onChangeText={(endYear)=> { 
+                    }}/>
+
+                <Input title='Год окончания' value={this.state.university.endYear} keyboardType='numeric' onChangeText={(endYear)=> { 
                         let { university } = this.state;
                         university.endYear = endYear;
                         this.setState({university})
-                    }} keyboardType='numeric' autocorrect={false} placeholder='Год окончания' value={this.state.university.endYear}>
-                </TextInput>
+                    }}/>
 
                 <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
                         style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.submit.bind(this)}>
                     {this.props.newProfile.isLoading?
                         <ActivityIndicator  color="#fff" animating={this.props.tasks.newTask.isLoading} />: 
-                        'Создать'
+                        'Сохранить'
                     }
                 </Button>
-            </ScrollView>
+            </Form>
         )
     }
 }
@@ -226,7 +180,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: colors.defaultBackground,
+        padding: 20,
     },
     welcome: {
         fontSize: 20,
@@ -235,9 +190,8 @@ const styles = StyleSheet.create({
     },
     imagePicker:{
         flexDirection: 'row',
-        marginLeft: 15,
-        marginTop: 15,
         alignItems: 'center',
+        marginBottom: 10
     },
     image:{
         width: 100,

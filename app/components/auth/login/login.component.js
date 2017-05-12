@@ -5,16 +5,17 @@ import Button from 'react-native-button';
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
 
-import CustomInput from '../../common/form-controls/input.component';
+import { Input } from '../../common/form-controls';
 
 export default class LoginComponent extends Component {
     constructor(props){
         super(props)
         let email = props.navigation.state.params && props.navigation.state.params.email;
+        let password = props.navigation.state.params && props.navigation.state.params.password;
         this.state = {
             isError: false,
             email: email || 'test@test.com',
-            password:'123456',
+            password:password ||'123456',
             imageSize: new Animated.Value(150)
         };
     }
@@ -22,7 +23,7 @@ export default class LoginComponent extends Component {
     async componentWillReceiveProps(nextProps) {
         this.setModalVisibility(nextProps.auth.status === 'error')
 
-        if (nextProps.auth.status === 'authenticated' && nextProps.auth.token && !nextProps.auth.error ){
+        if (nextProps.auth.status === 'authenticated' && nextProps.auth.token && nextProps.auth.status !== 'error'  && !nextProps.auth.isPending){
             //redirect further
 
             console.log('*******************************************************************')
@@ -106,10 +107,10 @@ export default class LoginComponent extends Component {
                     </Text>
                 }
                 
-                <CustomInput title='Email' value={userData.email}
+                <Input title='Email' value={userData.email}
                      onChangeText={email => this.setState({ email })}/>
 
-                <CustomInput title='Пароль' value={userData.password}
+                <Input title='Пароль' value={userData.password}
                      secureTextEntry={true} onChangeText={password => this.setState({password})} />
 
                 <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 

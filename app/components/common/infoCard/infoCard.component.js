@@ -7,9 +7,11 @@ export default class InfoCardComponent extends Component {
         if(this.props.isVisible || this.props.isVisible === undefined){
             return (
                 <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        {this.props.title}
-                    </Text>
+                    {this.props.title && 
+                        <Text style={styles.sectionName}>
+                            {this.props.title}
+                        </Text>
+                    }
                     {this.props.children}
                 </View>
             )
@@ -22,7 +24,8 @@ export default class InfoCardComponent extends Component {
 
 const styles = StyleSheet.create({
     section: {
-        margin:10,
+        marginTop:10,
+        marginBottom:10,
         backgroundColor: colors.cardBackground,
         padding: 10,
     },
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         color: colors.defaultFontColor,
-        margin: 5,
+        marginTop: 5,
         marginBottom: 15
     }
 })

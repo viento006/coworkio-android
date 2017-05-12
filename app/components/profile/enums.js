@@ -8,16 +8,18 @@ export const socialAccountTypes= [
 ];
 
 export const universities = [
-    {label: 'БГУИР'},
+    {label: 'БГУИР', value: 'БГУИР'},
+    {label: 'БГУИР1', value: 'БГУИР3'},
+    {label: 'БГУИР2', value: 'БГУИР4'},
 ];
 
 export const faculties = [
-    {label: 'ФКСиС'},
-    {label: 'ФИТУ'},
-    {label: 'ФКП'},
-    {label: 'ИЭФ'},
-    {label: 'ВФ'},
-    {label: 'ФНиДО'},
-    {label: 'ФРЭ'},
-    {label: 'ФТК'},
+    {label: 'ФКСиС', value: 'ФКСиС'},
+    {label: 'ФИТУ', value: 'ФИТУ'},
+    {label: 'ФКП', value: 'ФКП'},
+    {label: 'ИЭФ', value: 'ИЭФ'},
+    {label: 'ВФ', value: 'ВФ'},
+    {label: 'ФНиДО', value: 'ФНиДО'},
+    {label: 'ФРЭ', value: 'ФРЭ'},
+    {label: 'ФТК', value: 'ФТК'},
 ];

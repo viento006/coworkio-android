@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, ActivityIndicator, Dimensions } from 'react-native';
+import { AppRegistry, StyleSheet, Text, ScrollView, View, TextInput, ActivityIndicator, Dimensions } from 'react-native';
 import Button from 'react-native-button';
 
 import Task from '../../task/board/task.component'
+
+import formControlStyles from '../../../styles/form-controls';
 
 export default class BoardColumnComponent extends Component {
     componentWillReceiveProps(nextProps){
@@ -13,18 +15,21 @@ export default class BoardColumnComponent extends Component {
         var { width } = Dimensions.get('window');
 
         return (
-            <View style={[styles.container ,{ width: width * .8 }]}>
+            <ScrollView style={[{ width: width * .8 }]}>
+                <View style={styles.container}>
+
                 <Text style={styles.projectSectionHeader}>
                     {this.props.title}
                 </Text>
                 { this.props.tasks.map((task, index)=>
                     <Task task={task} key={index} updateTask={this.props.updateTask} viewTask={this.props.viewTask}></Task>)
                 }
-                <Button style={styles.submitButtonContent}
-                    containerStyle={styles.submitButton} onPress={this.props.createTask}>
+                <Button containerStyle={[formControlStyles.buttonContainer, {marginBottom: 10}]} 
+                        style={formControlStyles.buttonContent} onPress={this.props.createTask}>
                    Добавить задание
                 </Button>
-            </View>
+                </View>
+            </ScrollView>
         );
     }
 }
@@ -38,43 +43,12 @@ BoardColumnComponent.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
-        borderLeftWidth: 1,
-        padding: 10
+        padding: 10,
     },
-    
     projectSectionHeader: {
-        fontSize: 25
-    }, 
-    login: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
-    },
-    spinner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 8,
-    },
-     submitButton: {
-        padding:10,
-        margin: 25,
-        height: 50,
-        overflow:'hidden',
-        borderRadius:4,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderStyle: 'dashed'
-    }, 
-    submitButtonContent: {
-        color:"#000",
+        fontSize: 25,
+        marginLeft: 5,
+        marginBottom: 10,
     },
 })
 

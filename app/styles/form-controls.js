@@ -14,7 +14,7 @@ export default styles = StyleSheet.create({
     },
     buttonContent: {
         fontWeight: 'normal',
-        color: colors.buttonContent
+        color: colors.darkFontColor
     },
     submitButtonContainer: {
         backgroundColor: colors.submitButtonBackground

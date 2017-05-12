@@ -22,7 +22,7 @@ export default class RegisterComponent extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if (nextProps.auth.isSuccessful && !nextProps.auth.error ){
+        if (nextProps.auth.isSuccessful && !nextProps.auth.isPending && !nextProps.auth.error ){
             //redirect further
             this.props.navigation.navigate('Login', { name: this.state.firstName, email: this.state.email, password: this.state.password })
         }

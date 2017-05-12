@@ -14,6 +14,7 @@ export default colors = {
     blockContent: '#808080',
 
     border: '#b3b3b3',
+    inputUnderline: '#333333',
 
     cardBackground: '#ffffff'
 

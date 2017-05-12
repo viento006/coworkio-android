@@ -58,37 +58,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    }, 
-    login: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
-    },
-    submitButton: {
-        color:"#fff",
-    }, 
-    spinner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 8,
     }
 })
 
