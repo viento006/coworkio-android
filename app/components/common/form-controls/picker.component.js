@@ -21,7 +21,7 @@ export default class InputComponent extends Component {
                 <Text style={styles.title}>{this.props.title}</Text>
                 <Picker selectedValue={this.state.value}
                     onValueChange={this.props.onValueChange}>
-                    {this.props.items.map((item, index) => <Picker.Item key={index} label={item.label} value={item.value} />)}
+                    {this.props.items.map((item, index) => <Picker.Item key={index} color={colors.darkFontColor} label={item.label} value={item.value} />)}
                 </Picker>
             </View>
         )
