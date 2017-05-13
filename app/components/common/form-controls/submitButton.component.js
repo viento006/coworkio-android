@@ -15,7 +15,8 @@ export default class SubmitButtonComponent extends Component {
     render() {
         let isSubmit = this.props.isSubmit !== false;
         return (
-            <Button containerStyle={[formControlStyles.buttonContainer, isSubmit ? formControlStyles.submitButtonContainer : {}]} 
+            <Button disabled={this.props.disabled} containerStyle={[formControlStyles.buttonContainer, 
+                isSubmit ? formControlStyles.submitButtonContainer : {}, this.props.disabled ? {backgroundColor: colors.cardBackground} : {}]} 
                     style={[formControlStyles.buttonContent, isSubmit ? formControlStyles.submitButtonContent : {}]} onPress={this.submit.bind(this)}>
                 {this.props.isLoading 
                     ? <ActivityIndicator  color="#fff" animating={true} />

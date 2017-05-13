@@ -4,18 +4,18 @@ import { AppRegistry, StyleSheet, Text, View, TouchableOpacity } from 'react-nat
 import colors from '../../../styles/colors';
 
 import Button from 'react-native-button';
-import Tag from './tag.component';
-export default class TagListComponent extends Component {
-    removeTag(index){
+import Account from './account.component';
+export default class AccountListComponent extends Component {
+    removeItem(index){
         this.props.items.splice(index, 1);
         this.props.onItemsChange(this.props.items);
     }
 
     render() {
         return (
-             <View style={styles.tagList}>
-                {this.props.items && this.props.items.map((tag, index) => 
-                    <Tag key={index} index={index} title={tag} onRemove={this.props.onItemsChange ? this.removeTag.bind(this) : undefined}/>
+             <View style={styles.list}>
+                {this.props.items.map((item, index) => 
+                    <Account key={index} index={index} data={item} onRemove={this.props.onItemsChange ? this.removeItem.bind(this) : undefined}/>
                 )}
             </View>
         )
@@ -23,7 +23,7 @@ export default class TagListComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    tagList: {
+    list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
     },

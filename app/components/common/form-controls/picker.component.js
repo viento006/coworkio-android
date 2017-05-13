@@ -3,7 +3,7 @@ import { AppRegistry, StyleSheet, Text, View, Picker } from 'react-native';
 
 import colors from '../../../styles/colors';
 
-export default class InputComponent extends Component {
+export default class PickerComponent extends Component {
     constructor(props){
         super(props)
         this.state = {

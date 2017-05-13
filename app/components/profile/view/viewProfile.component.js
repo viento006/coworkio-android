@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import Button from 'react-native-button';
 
 import InfoCard from '../../common/infoCard/infoCard.component';
 import InfoCardSection from '../../common/infoCard/infoCard-section.component';
+import { socialAccountTypes } from '../../common/accounts/enums';
+import TagList from '../../common/tag/tagList.component';
 
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
@@ -43,6 +45,10 @@ export default class ViewProfileComponent extends Component {
         return str;
     }
 
+    openUrl(url){
+        Linking.openURL(url).catch(err => console.error('An error occurred', err));
+    }
+
     render() {
         const { profile } = this.props.profile;
         console.log('*******************************************************************')
@@ -69,13 +75,23 @@ export default class ViewProfileComponent extends Component {
                     <InfoCardSection title='📞' value={profile.phoneNumber} isVisible={profile.phoneNumber}></InfoCardSection>
                 </InfoCard>
 
+                <InfoCard title='Навыки'>
+                    <TagList items={profile.skills.map(skill => skill.skillId)} />
+                </InfoCard>
+
                 <InfoCard title='Проекты'>
                     <InfoCardSection title='Активных' value={profile.projects.filter((p) => p.current).length} isVisible={profile.projects}></InfoCardSection>
                     <InfoCardSection title='Завершенных' value={profile.projects.filter((p) => !p.current).length} isVisible={profile.projects}></InfoCardSection>
                 </InfoCard>
 
                 <InfoCard title='Аккаунты' isVisible={(profile.github || (profile.accounts && profile.accounts.length))}>
-                    <InfoCardSection title='GitHub' value={profile.github} isVisible={profile.github}></InfoCardSection>
+                    <TouchableOpacity onPress={this.openUrl.bind(this,[profile.github])}>
+                        <InfoCardSection icon={require('../../../images/icons/github.png')} value={profile.github} isVisible={profile.github}></InfoCardSection>
+                    </TouchableOpacity>
+                    {profile.accounts.map((item, index)=> {
+                        const { icon } = socialAccountTypes.find((account)=> account.value === item.type);
+                        return <InfoCardSection key={index} icon={icon} value={item.link}></InfoCardSection>
+                    })}
                 </InfoCard>
 
                 <InfoCard title='Информация о университете' isVisible={profile.university}>
@@ -102,7 +118,6 @@ const styles = StyleSheet.create({
         padding: 15
     },
     imageSection: {
-        margin: 10,
         backgroundColor: colors.cardBackground,
         padding: 10,
         flexDirection: 'row',
@@ -113,7 +128,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         height: 100,
         marginRight: 10
-    },
+    }, 
     name:{
         fontSize: 18,
         color: colors.darkFontColor,

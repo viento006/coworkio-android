@@ -5,3 +5,4 @@ export { default as Form } from './form.component';
 export { default as SubmitButton } from './submitButton.component';
 export { default as TagInput } from './tagInput.component';
 export { default as VacancyInput } from './vacancyInput.component';
+export { default as AccountInput } from './accountInput.component';

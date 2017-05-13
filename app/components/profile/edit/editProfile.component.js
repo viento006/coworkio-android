@@ -8,7 +8,7 @@ import { socialAccountTypes, universities, faculties } from '../enums';
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
 
-import { Form, Input, Picker, TagInput } from '../../common/form-controls';
+import { Form, Input, Picker, TagInput, AccountInput, SubmitButton } from '../../common/form-controls';
 import InfoCard from '../../common/infoCard/infoCard.component';
 
 export default class EditProfileComponent extends Component {
@@ -20,15 +20,12 @@ export default class EditProfileComponent extends Component {
             firstName: profile.firstName || '',
             middleName: profile.middleName || '',
             lastName: profile.lastName || '',
-            //accountConfirmed
-            //role
             email: profile.email || '',
-            //password
             projects: profile.projects || [],
             phoneNumber: profile.phoneNumber || '',
-            accounts: profile.accounts || [], //TODO:add control
+            accounts: profile.accounts || [],
             github: profile.github || '',
-            photoUrl: profile.photoUrl || '', //TODO:add control
+            photoUrl: profile.photoUrl || '',
             university: {
                 university: profile.university.university || universities[0].value,
                 faculty: profile.university.faculty || faculties[0].value,
@@ -37,34 +34,20 @@ export default class EditProfileComponent extends Component {
                 startYear: String(profile.university.startYear) || '',
                 endYear: String(profile.university.endYear) || '',
             },
-            skills: profile.skills || [], //think of autosuggest
-            tmpSkill: ''
+            skills: profile.skills || []
         };
     }
 
     componentWillReceiveProps(nextProps){
         console.log('sd')
-        if (!nextProps.newProfile.isLoading && !nextProps.newProfile.error && !nextProps.newProfile.profileId){
-            this.props.navigation.goBack()
-        }
-        console.log(nextProps.profile);
-        if (nextProps.profile.profile && !nextProps.profile.isLoading){
-            this.setState(nextProps.profile.profile);
+        if (!nextProps.newProfile.isLoading && !nextProps.newProfile.error && nextProps.newProfile.profileId){
+            this.props.navigation.navigate('ViewProfile', { profile: this.state })
         }
     }
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'Изменить профиль'
     });
-
-    addSkill(){
-        this.setState({skills: [...this.state.skills, this.state.tmpSkill], tmpSkill: ''});
-    }
-
-    removeSkill(index){
-        let skills = this.state.skills.splice(index, 1);
-        this.setState({skills});
-    }
 
     changeImage(){
         ImagePicker.openPicker({
@@ -94,9 +77,7 @@ export default class EditProfileComponent extends Component {
     submit(){
         //validate
 
-        let data = {...this.state}
-        delete data.tmpSkill;
-        delete data.skills;
+        let data = {...this.state};
         this.props.onSubmit(data);
     }
 
@@ -127,8 +108,13 @@ export default class EditProfileComponent extends Component {
                     <Input title='Аккаунт GitHub' value={this.state.github} onChangeText={github => this.setState({ github })}/>
                 </InfoCard>
 
+                 <InfoCard>
+                    <AccountInput title='Аккаунты' items={this.state.accounts} onItemsChange={(accounts)=> this.setState({accounts})}/>
+                </InfoCard>
+
                 <InfoCard>
-                    <TagInput title='Навыки' hint='Введите навык' items={this.state.skills} onItemsChange={(skills)=> this.setState({skills})}/>
+                    <TagInput title='Навыки' hint='Введите навык' items={this.state.skills.map(skill => skill.skillId)} 
+                        onItemsChange={(skills)=> this.setState({skills: skills.map(skill => {return { skillId: skill }})})}/>
                 </InfoCard>
 
                 <InfoCard>
@@ -169,13 +155,7 @@ export default class EditProfileComponent extends Component {
                         }}/>
                 </InfoCard>
 
-                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
-                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.submit.bind(this)}>
-                    {this.props.newProfile.isLoading?
-                        <ActivityIndicator  color="#fff" animating={this.props.tasks.newTask.isLoading} />: 
-                        'Сохранить'
-                    }
-                </Button>
+                <SubmitButton isLoading={this.props.newProfile.isLoading} onPress={this.submit.bind(this)} title='Сохранить' />
             </Form>
         )
     }
