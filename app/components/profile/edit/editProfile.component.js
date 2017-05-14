@@ -39,7 +39,6 @@ export default class EditProfileComponent extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('sd')
         if (!nextProps.newProfile.isLoading && !nextProps.newProfile.error && nextProps.newProfile.profileId){
             this.props.navigation.navigate('ViewProfile', { profile: this.state })
         }

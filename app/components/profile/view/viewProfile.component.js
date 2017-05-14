@@ -26,25 +26,6 @@ export default class ViewProfileComponent extends Component {
                        onPress={()=>{navigation.navigate('EditProfile', { profile: navigation.state.params.profile})}}> ✎ </Button>
     });
 
-    getFormattedDate(timestamp) {
-        var date = new Date(timestamp);
-
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var sec = date.getSeconds();
-
-        month = (month < 10 ? "0" : "") + month;
-        day = (day < 10 ? "0" : "") + day;
-        hour = (hour < 10 ? "0" : "") + hour;
-        min = (min < 10 ? "0" : "") + min;
-
-        var str = date.getFullYear() + "-" + month + "-" + day + " " +  hour + ":" + min;
-
-        return str;
-    }
-
     openUrl(url){
         Linking.openURL(url).catch(err => console.error('An error occurred', err));
     }

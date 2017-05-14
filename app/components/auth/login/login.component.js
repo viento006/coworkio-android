@@ -33,7 +33,7 @@ export default class LoginComponent extends Component {
             this.props.navigation.navigate('Main')
         }
     }
-     componentWillMount() {
+    componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
     }

@@ -20,6 +20,7 @@ export default class ProjectListComponent extends Component {
         super(props)
         
     }
+
     componentWillMount(){
         this.props.fetchProjectsByUser()
     }
@@ -31,6 +32,7 @@ export default class ProjectListComponent extends Component {
     openBoard(project){
         this.props.navigation.navigate('Board', { project })
     }
+
     openProject(project){
         this.props.navigation.navigate('ViewProject', { project })
 

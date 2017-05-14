@@ -24,9 +24,11 @@ export default class EditProjectComponent extends Component {
             githubLink:'',
         };
     }
+
     componentWillMount(){
         this.props.getUsers();
     }
+
     componentWillReceiveProps(nextProps){
         if (!nextProps.projects.newProject.isLoading && !nextProps.projects.error && nextProps.projects.newProject.projectID && this.isSubmitted ){
             this.props.navigation.navigate('Dashboard');
