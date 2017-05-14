@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, Picker } from 'react-native';
-export default class TaskComponent extends Component {
-    componentWillReceiveProps(nextProps){
-        
-    }
 
+import colors from '../../styles/colors';
+
+export default class TaskComponent extends Component {
     statusColors = {
         LOW: '#3BFF00',
         MINOR: '#7FFFFF',
@@ -34,9 +33,9 @@ export default class TaskComponent extends Component {
                         </Text>
                     </View>
                     <View style={styles.picker}>
-                        <Picker prompt='Переместить в...' onValueChange={(status) => this.moveTask(status)}>
+                        <Picker prompt='Переместить в...' selectedValue={task.status} onValueChange={(status) => this.moveTask(status)}>
                             {task.availableStatuses.map((item, index) => 
-                                <Picker.Item key={index} label={'⋮ '+ item.title} value={item.order} />)
+                                <Picker.Item key={index} color={task.status === item.order ? colors.defaultFontColor : colors.darkFontColor} label={'⋮ '+ item.title} value={item.order} />)
                             }
                         </Picker>
                     </View>

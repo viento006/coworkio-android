@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { AppRegistry, StyleSheet, ScrollView, Dimensions, View, Text } from 'react-native';
 import Button from 'react-native-button';
 
 import BoardColumn from '../column/boardColumn.component';
+
+import colors from '../../../styles/colors';
 
 export default class SprintComponent extends Component {
     scrollView = null;
@@ -31,16 +33,19 @@ export default class SprintComponent extends Component {
 
     render() {
         return (
-            <ScrollView horizontal={true}  style={styles.container} ref={(scrollView) => { this.scrollView = scrollView; }}
-                onMomentumScrollEnd={this.onEndDrag.bind(this)}
-                onScroll={this.onScroll.bind(this)} automaticallyAdjustContentInsets={false}>
-                { this.props.boardConfig.statuses.map((status, index) => {
-                    const availableStatuses = this.props.boardConfig.statuses.filter(s => s.title !== status.title);
-                    const tasks = this.props.tasks.filter((task) => task.status === status.order).map(task =>  { return {...task, availableStatuses}});
-                    return <BoardColumn title={status.title} key={index} tasks={tasks} updateTask={this.props.updateTask} viewTask={this.props.viewTask}
-                                createTask={()=>this.props.createTask(this.props.sprint.id, status.order)}></BoardColumn> })
-                }
-            </ScrollView>
+            <View style={styles.container}>
+                <Text style={styles.title}>{this.props.sprint.id === 0 ? 'Оставшиеся задания' : this.props.sprint.name}</Text>            
+                <ScrollView horizontal={true} ref={(scrollView) => { this.scrollView = scrollView; }}
+                    onMomentumScrollEnd={this.onEndDrag.bind(this)}
+                    onScroll={this.onScroll.bind(this)} automaticallyAdjustContentInsets={false}>
+                        { this.props.boardConfig.statuses.map((status, index) => {
+                            const availableStatuses = this.props.boardConfig.statuses;
+                            const tasks = this.props.tasks.filter((task) => task.status === status.order).map(task =>  { return {...task, availableStatuses}});
+                            return <BoardColumn title={status.title} key={index} tasks={tasks} updateTask={this.props.updateTask} viewTask={this.props.viewTask}
+                                        createTask={()=>this.props.createTask(this.props.sprint.id, status.order)}></BoardColumn> })
+                        }
+                </ScrollView>
+            </View>
         );
     }
 }
@@ -55,9 +60,11 @@ SprintComponent.propTypes = {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
+    title:{
+        paddingLeft: 10,
+        marginTop: 10,
+        color: colors.darkFontColor,
+        fontSize: 30,
     }
 })
 

@@ -7,6 +7,8 @@ import ProjectCard from './projectCard/projectCard.component'
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
 
+import { SubmitButton } from '../../common/form-controls';
+
 export default class ProjectListComponent extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'Ваши проекты',
@@ -29,6 +31,10 @@ export default class ProjectListComponent extends Component {
     openBoard(project){
         this.props.navigation.navigate('Board', { project })
     }
+    openProject(project){
+        this.props.navigation.navigate('ViewProject', { project })
+
+    }
 
     render() {
         console.log('*******************************************************************')
@@ -42,9 +48,8 @@ export default class ProjectListComponent extends Component {
                     <Text style={styles.welcome}>
                         Здесь пока пусто. Вы можете
                     </Text> 
-                    <TouchableOpacity onPress={(this.createProject.bind(this))}>
-                        <Text>создать новый проект</Text>
-                    </TouchableOpacity>
+                    <SubmitButton onPress={(this.createProject.bind(this))} title='создать новый проект' isSubmit={false}/>
+                   
                 </View>
             );
         } else {
@@ -54,12 +59,12 @@ export default class ProjectListComponent extends Component {
             return (
                 <View style={styles.container}>
                     { !!activeProjects.length &&
-                        <ScrollView>
+                        <ScrollView style={{marginBottom: 15}}>
                             <Text style={styles.projectSectionHeader}>
                                 Активные проекты
                             </Text> 
                             {activeProjects.map((project, index) => 
-                                <ProjectCard key={index} project={project} openBoard={() => this.openBoard.call(this, project.project)}></ProjectCard>)
+                                <ProjectCard key={index} project={project} openBoard={() => this.openBoard.call(this, project.project)} onPress={this.openProject.bind(this, project.project)}></ProjectCard>)
                             }
                         </ScrollView>
                     }
@@ -88,17 +93,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: colors.defaultBackground,
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-        color: colors.darkFontColor,
+        paddingLeft: 20,
+        paddingRight: 20,
     },
     projectSectionHeader: {
         fontSize: 24,
         marginTop: 20,
-        marginLeft: 20,
         color: colors.darkFontColor
     },
 });

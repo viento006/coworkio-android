@@ -48,7 +48,7 @@ export default class LoginComponent extends Component {
             this.state.imageSize, 
             {
               toValue: 50,
-              duration: 1000,
+              duration: 500,
             },
         ).start();
     }
@@ -58,7 +58,7 @@ export default class LoginComponent extends Component {
             this.state.imageSize, 
             {
               toValue: 150,
-              duration: 100,
+              duration: 500,
             },
         ).start();
     }

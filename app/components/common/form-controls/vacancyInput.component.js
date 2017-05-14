@@ -61,11 +61,9 @@ export default class VacancyInputComponent extends Component {
                     <Input title='Описание' multiline={true} value={this.state.description} onChangeText={description => this.setState({ description })}/>
 
                     <Picker items={positions} value={this.state.type} title="Навык" onValueChange={(type) => this.setState({type})}/>
-                    <Picker items={this.props.users} value={this.state.employee} title="" onValueChange={(employee) => this.setState({employee})}/>
+                    <Picker items={this.props.users} value={this.state.employee} title="Работник" onValueChange={(employee) => this.setState({employee})}/>
 
-                    
-                    <Button onPress={this.addPosition.bind(this)} title='Добавить' isSubmit={false}>
-                    </Button>
+                    <Button onPress={this.addPosition.bind(this)} title='Добавить' isSubmit={false}/>
                 </View>
             </View>
         )

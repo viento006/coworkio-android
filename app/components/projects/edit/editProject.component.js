@@ -11,6 +11,7 @@ import { Form, Input, Datepicker, VacancyInput, SubmitButton } from '../../commo
 
 export default class EditProjectComponent extends Component {
     users = [];
+    isSubmitted = false;
 
     constructor(props){
         super(props);
@@ -27,8 +28,9 @@ export default class EditProjectComponent extends Component {
         this.props.getUsers();
     }
     componentWillReceiveProps(nextProps){
-        if (!nextProps.projects.newProject.isLoading && !nextProps.projects.error && nextProps.projects.newProject.projectID ){
-            this.props.navigation.navigate('Dashboard')
+        if (!nextProps.projects.newProject.isLoading && !nextProps.projects.error && nextProps.projects.newProject.projectID && this.isSubmitted ){
+            this.props.navigation.navigate('Dashboard');
+            this.isSubmitted = false;
         }
         this.users = [{label: 'Не назначен', value: {}}, ...nextProps.users.profiles.map(profile => { 
             return {
@@ -49,6 +51,7 @@ export default class EditProjectComponent extends Component {
     submit(){
         //validate
         this.props.onSubmit(this.state);
+        this.isSubmitted = true;
     }
 
     render() {
@@ -87,7 +90,5 @@ export default class EditProjectComponent extends Component {
 EditProjectComponent.propTypes = {
     onSubmit: React.PropTypes.func.isRequired
 }
-
-
 
 AppRegistry.registerComponent('EditProjectComponent', () => EditProjectComponent)

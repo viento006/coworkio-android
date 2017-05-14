@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, Picker, DatePickerAndroid, TouchableOpacity , ActivityIndicator, AsyncStorage } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Image } from 'react-native';
 import Button from 'react-native-button';
 
 import { priorityTypes, taskLevels, taskTypes } from '../enums';
+
+import colors from '../../../styles/colors';
+import formControlStyles from '../../../styles/form-controls';
+
+import TagList from '../../common/tag/tagList.component';
+
+import InfoCard from '../../common/infoCard/infoCard.component';
+import InfoCardSection from '../../common/infoCard/infoCard-section.component';
+import { Form } from '../../common/form-controls';
+
 
 export default class ViewTaskComponent extends Component {
     componentWillMount(){
@@ -11,8 +21,8 @@ export default class ViewTaskComponent extends Component {
 
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: `${navigation.state.params.task.title}`,
-        headerRight: <Button containerStyle={styles.addProjectButton} style={styles.addProjectButtonContent}
-                       onPress={()=>{navigation.navigate('CreateTask', {isEdit: true, task: navigation.state.params.task})}}> ✎ </Button>
+        headerRight: <Button containerStyle={formControlStyles.navbarButtonContainer} style={formControlStyles.navbarButtonContent}
+                       onPress={()=>{navigation.navigate('CreateTask', {isEdit: true, task: navigation.state.params.task, project: navigation.state.params.project})}}> ✎ </Button>
     });
 
     getFormattedDate(timestamp) {
@@ -29,7 +39,7 @@ export default class ViewTaskComponent extends Component {
         hour = (hour < 10 ? "0" : "") + hour;
         min = (min < 10 ? "0" : "") + min;
 
-        var str = date.getFullYear() + "-" + month + "-" + day + " " +  hour + ":" + min;
+        var str = date.getFullYear() + "-" + month + "-" + day + " ";
 
         return str;
     }
@@ -39,66 +49,41 @@ export default class ViewTaskComponent extends Component {
         console.log('*******************************************************************')
         console.log('RENDER: VIEW TASK *************************************************')
         console.log('*******************************************************************')
-        return (            
-            <View style={styles.container}>
-                { task.tags && task.tags.length ? <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Теги:
-                    </Text>
-                    <Text style={styles.value}>
-                        {task.description}
-                    </Text>
-                </View>: <View></View>
-                }
-                <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Описание
-                    </Text>
-                    <Text style={styles.value}>
-                        {task.description}
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Уровень задачи
-                    </Text>
-                    <Text style={styles.value}>
-                        {taskLevels.find(l => l.value == task.taskLevel).label}
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Тип задачи
-                    </Text>
-                    <Text style={styles.value}>
-                        {taskTypes.find(t => t.value == task.taskType).label}
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Оценка
-                    </Text>
-                    <Text style={styles.value}>
-                        {task.estimate} часов
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Приоритет
-                    </Text>
-                    <Text style={styles.value}>
-                        {priorityTypes.find(p => p.value == task.priority).label}
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionName}>
-                        Готово к дате
-                    </Text>
-                    <Text style={styles.value}>
-                        {this.getFormattedDate(task.dueDate)}
-                    </Text>
-                </View>
-            </View>
+        return (
+            <Form>
+                <InfoCard title='Общая информация'>
+                    <InfoCardSection title='Название' value={task.title}></InfoCardSection>
+                    <InfoCardSection title='Описание' value={task.description} isVisible={task.description}></InfoCardSection>
+                </InfoCard>
+                <InfoCard title='Автор'>
+                    {task.assigneeId? 
+                        <View style={[styles.section, styles.imageSection]}>
+                            <Image style={styles.image} source={task.assigneeId.photoUrl? { uri: task.assigneeId.photoUrl } : require('../../../images/placeholder.jpg')}/>
+                            <Text style={styles.text}>{task.assigneeId.firstName}</Text>
+                        </View>:
+                        <Text style={styles.text}>Не назначен</Text>
+                    }
+                </InfoCard>
+                <InfoCard title='Исполнитель'>
+                    {task.assigneeId? 
+                        <View style={[styles.section, styles.imageSection]}>
+                            <Image style={styles.image} source={task.assigneeId.photoUrl? { uri: task.assigneeId.photoUrl } : require('../../../images/placeholder.jpg')}/>
+                            <Text style={styles.text}>{task.assigneeId.firstName}</Text>
+                        </View>:
+                        <Text style={styles.text}>Не назначен</Text>
+                    }
+                </InfoCard>
+                <InfoCard>
+                    <InfoCardSection title='Тип задачи' value={taskTypes.find(t => t.value == task.taskType).label} isVisible={task.taskType}></InfoCardSection>
+                    <InfoCardSection title='Приоритет' value={priorityTypes.find(p => p.value == task.priority).label} isVisible={task.priority}></InfoCardSection>
+                    <InfoCardSection title='Оценка' value={task.estimate + ' часов'} isVisible={task.estimate}></InfoCardSection>
+                    <InfoCardSection title='Срок выполенения' value={this.getFormattedDate(task.dueDate)} isVisible={task.dueDate}></InfoCardSection>
+                </InfoCard>
+
+                <InfoCard title='Теги' isVisible={task.tags && !!task.tags.length}>
+                    <TagList items={task.tags}/>
+                </InfoCard>
+            </Form>
         )
     }
 }
@@ -115,9 +100,18 @@ const styles = StyleSheet.create({
     section: {
         margin: 10
     },
-    sectionName: {
-        fontSize: 18,
-        fontWeight: 'bold'
+    imageSection:{
+        flexDirection: 'row'
+    },
+    image: {
+        width: 30,
+        borderRadius: 15,
+        height: 30,
+        marginRight: 10
+    },
+    text: {
+        marginRight: 5,
+        marginLeft: 5
     },
     editTaskButton:{
         height: 30,

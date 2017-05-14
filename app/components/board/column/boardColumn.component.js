@@ -24,7 +24,7 @@ export default class BoardColumnComponent extends Component {
                 { this.props.tasks.map((task, index)=>
                     <Task task={task} key={index} updateTask={this.props.updateTask} viewTask={this.props.viewTask}></Task>)
                 }
-                <Button containerStyle={[formControlStyles.buttonContainer, {marginBottom: 10}]} 
+                <Button containerStyle={[formControlStyles.buttonContainer, {marginBottom: 60}]} 
                         style={formControlStyles.buttonContent} onPress={this.props.createTask}>
                    Добавить задание
                 </Button>

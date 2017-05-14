@@ -16,6 +16,8 @@ export default colors = {
     border: '#b3b3b3',
     inputUnderline: '#333333',
 
-    cardBackground: '#ffffff'
+    cardBackground: '#ffffff',
 
+    menuBackground: '#748196',
+    menuBorder: '#8C96AA'
 }

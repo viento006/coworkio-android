@@ -11,18 +11,20 @@ export default class VacancyComponent extends Component {
         let vacancy = this.props.item;
         let mappedType = positions.find((p) => p.value === vacancy.type)
         vacancy.typeLabel = mappedType? mappedType.label: vacancy.type;
-        vacancy.employeeName = vacancy.employee.firstName || vacancy.employee.lastName 
-            ? vacancy.employee.firstName+' '+ vacancy.employee.lastName
-            : vacancy.employee.email;
+        vacancy.employeeName = vacancy.employee 
+            ? vacancy.employee.firstName || vacancy.employee.lastName 
+                ? vacancy.employee.firstName+' '+ vacancy.employee.lastName
+                : vacancy.employee.employeeId 
+            :'';
         return (
             <View style={styles.vacancy}>
                 <View style={styles.container}>
-                    <InfoCardSection title='Название' value={vacancy.title} />
-                    <InfoCardSection title='Описание' value={vacancy.description} />
-                    <InfoCardSection title='Навык' value={vacancy.typeLabel} />
+                    <InfoCardSection title='Название' value={vacancy.title || vacancy.positionInfo && vacancy.positionInfo.title} />
+                    <InfoCardSection title='Описание' value={vacancy.description || vacancy.positionInfo && vacancy.positionInfo.description} />
+                    <InfoCardSection title='Навык' value={vacancy.typeLabel || vacancy.positionInfo && vacancy.positionInfo.typeLabel} />
                         
                     <Text style={styles.property}>Исполнитель:</Text>
-                    {vacancy.employeeId? 
+                    {vacancy.employee? 
                         <View style={[styles.section, styles.imageSection]}>
                             <Image style={styles.image} source={vacancy.employee.photoUrl? { uri: vacancy.employee.photoUrl } : require('../../../images/placeholder.jpg')}/>
                             <Text style={styles.text}>{vacancy.employeeName}</Text>

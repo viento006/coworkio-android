@@ -14,20 +14,22 @@ export default class ProjectCardComponent extends Component {
     render() {
         const { project } = this.props.project; 
         return (
-            <View style={styles.card}>
-                <View>
-                    <Text style={styles.title}>
-                        {project.title}
-                    </Text>
-                    <Text style={styles.description}>
-                        {project.description}
-                    </Text>
+            <TouchableOpacity onPress={this.props.onPress} activeOpacity={.8}>
+                <View style={styles.card}>
+                    <View>
+                        <Text style={styles.title}>
+                            {project.title}
+                        </Text>
+                        <Text style={styles.description}>
+                            {project.description}
+                        </Text>
+                    </View>
+                    <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                            style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.props.openBoard}>
+                        Открыть доску заданий
+                    </Button>
                 </View>
-                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
-                        style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.props.openBoard}>
-                    Открыть доску заданий
-                </Button>
-            </View>
+            </TouchableOpacity>
         );
     }
 }
@@ -42,8 +44,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         marginTop: 10,
-        marginLeft: 15,
-        marginRight: 15,
         backgroundColor: colors.cardBackground,
         justifyContent: 'space-between',
     },

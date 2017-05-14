@@ -17,6 +17,11 @@ import Navigation from '../../navigation/main.navigation';
     this.navigator && this.navigator.dispatch({ type: 'Navigation/NAVIGATE', routeName: 'ViewProfile', params: {profile} });    
   }
 
+  logOut(){
+    this.setState({ isOpen: false });
+    this.props.navigation.navigate('Login');
+  }
+
   navigateToDashboard(){
     this.setState({ isOpen: false });
     this.navigator && this.navigator.dispatch({ type: 'Navigation/NAVIGATE', routeName: 'Dashboard'});
@@ -28,7 +33,7 @@ import Navigation from '../../navigation/main.navigation';
     console.log('*******************************************************************')
     
     const menu = <Menu isOpen={this.state.isOpen} navigateToDashboard={this.navigateToDashboard.bind(this)}
-                    navigateToProfile={this.navigateToProfile.bind(this)}/>
+                    navigateToProfile={this.navigateToProfile.bind(this)} logOut={this.logOut.bind(this)}/>
     
     return (
       <SideMenu menu={menu}>

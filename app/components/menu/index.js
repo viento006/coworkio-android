@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchProfile } from '../../common/actions/profile.actions';
+import { logoutUser } from '../../common/actions/auth.actions';
 
 import MenuComponent from './menu.component';
 
@@ -15,7 +16,11 @@ const mapDispatchToProps = (dispatch) => {
     return  {
         fetchProfile: () => { 
             dispatch(fetchProfile()) 
+        },
+        dispatchLogOut: () => {
+            dispatch(logoutUser()) 
         }
+        
     }
 };
 

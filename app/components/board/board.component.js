@@ -18,11 +18,13 @@ export default class BoardComponent extends Component {
     createTask(sprintId, status){
         const { project } = this.props.navigation.state.params;
         
-        this.props.navigation.navigate('CreateTask',{ sprintId, status, projectId: project.id });
+        this.props.navigation.navigate('CreateTask',{ sprintId, status, project });
     }
 
     viewTask(task){
-        this.props.navigation.navigate('ViewTask', { task });
+        const { project } = this.props.navigation.state.params;
+        
+        this.props.navigation.navigate('ViewTask', { task, project });
     }
 
     render() {
@@ -50,7 +52,7 @@ BoardComponent.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: colors.buttonBackground,
     },
 })
