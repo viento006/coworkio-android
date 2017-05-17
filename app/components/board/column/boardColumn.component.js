@@ -16,10 +16,10 @@ export default class BoardColumnComponent extends Component {
 
         return (
             <ScrollView style={[{ width: width * .8 }]}>
-                <View style={styles.container}>
+                <View style={[styles.container]}>
 
                 <Text style={styles.projectSectionHeader}>
-                    {this.props.title}
+                    {this.props.title} ({this.props.tasks.length})
                 </Text>
                 { this.props.tasks.map((task, index)=>
                     <Task task={task} key={index} updateTask={this.props.updateTask} viewTask={this.props.viewTask}></Task>)

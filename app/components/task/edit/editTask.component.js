@@ -38,8 +38,8 @@ export default class EditTaskComponent extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if (((!nextProps.tasks.newTask.isLoading && !nextProps.tasks.newTask.error && nextProps.tasks.newTask.task) ||
-            (!nextProps.tasks.updatedTask.isLoading && !nextProps.tasks.updatedTask.error && nextProps.tasks.updatedTask.task)) &&
+        if (((!nextProps.tasks.newTask.loading && !nextProps.tasks.newTask.error && nextProps.tasks.newTask.task) ||
+            (!nextProps.tasks.updatedTask.loading && !nextProps.tasks.updatedTask.error && nextProps.tasks.updatedTask.task)) &&
              this.isSubmitted){
             this.props.navigation.navigate('Board', { project: nextProps.navigation.state.params.project });
             this.isSubmitted = false;

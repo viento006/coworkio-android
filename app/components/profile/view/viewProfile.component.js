@@ -41,13 +41,7 @@ export default class ViewProfileComponent extends Component {
                 <View style={[styles.section, styles.imageSection]}>
                     <Image style={styles.image} source={profile.photoUrl? { uri: profile.photoUrl } : require('../../../images/placeholder.jpg')}/>
                     <Text style={styles.name}>
-                       {profile.lastName} 
-                    </Text>
-                    <Text style={styles.name}>
-                        {profile.firstName} 
-                    </Text> 
-                    <Text style={styles.name}>
-                        {profile.middleName}
+                       {profile.lastName} {profile.firstName} {profile.middleName}
                     </Text>
                 </View>
 
@@ -96,7 +90,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.defaultBackground,
-        padding: 15
+        padding: 15,
+        marginBottom:15
     },
     imageSection: {
         backgroundColor: colors.cardBackground,
@@ -108,12 +103,14 @@ const styles = StyleSheet.create({
         width: 100,
         borderRadius: 50,
         height: 100,
-        marginRight: 10
+        marginRight: 10,
     }, 
     name:{
         fontSize: 18,
         color: colors.darkFontColor,
-        padding: 3
+        padding: 3,
+        flexWrap: 'wrap',
+        flex: 1
     },
 })
 

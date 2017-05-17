@@ -46,7 +46,7 @@ export default class ProjectListComponent extends Component {
 
         if(!projects.length){
             return (
-                <View style={styles.container}>
+                <View style={[styles.container, {justifyContent:'center'}]}>
                     <Text style={styles.welcome}>
                         Здесь пока пусто. Вы можете
                     </Text> 
@@ -59,28 +59,28 @@ export default class ProjectListComponent extends Component {
             const inactiveProjects  = projects.filter((project) => !project.current);
 
             return (
-                <View style={styles.container}>
+                <ScrollView style={styles.container}>
                     { !!activeProjects.length &&
-                        <ScrollView style={{marginBottom: 15}}>
+                        <View style={{marginBottom: 15}}>
                             <Text style={styles.projectSectionHeader}>
                                 Активные проекты
                             </Text> 
                             {activeProjects.map((project, index) => 
                                 <ProjectCard key={index} project={project} openBoard={() => this.openBoard.call(this, project.project)} onPress={this.openProject.bind(this, project.project)}></ProjectCard>)
                             }
-                        </ScrollView>
+                        </View>
                     }
                     { !!inactiveProjects.length &&
-                        <ScrollView>
+                        <View>
                             <Text style={styles.projectSectionHeader}>
                                 Завершенные проекты
                             </Text>
                             {inactiveProjects.map((project, index) => 
                                 <ProjectCard key={index} project={project} openBoard={() => this.openBoard.call(this, project.project)}></ProjectCard>)
                             }
-                        </ScrollView>
+                        </View>
                     }
-                </View>
+                </ScrollView>
             )
         }
     }
@@ -93,7 +93,6 @@ ProjectListComponent.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         backgroundColor: colors.defaultBackground,
         paddingLeft: 20,
         paddingRight: 20,

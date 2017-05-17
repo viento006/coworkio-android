@@ -53,8 +53,7 @@ export default class AccountInputComponent extends Component {
 
                     <Picker items={socialAccountTypes} value={this.state.type} title="Приложение" onValueChange={(type) => this.setState({type})}/>
                     
-                    <Button disabled={!this.state.link} onPress={this.addAccount.bind(this)} title='Добавить' isSubmit={false}>
-                    </Button>
+                    <Button disabled={!this.state.link} onPress={this.addAccount.bind(this)} title='Добавить' isSubmit={false}/>
                 </View>
             </View>
         )

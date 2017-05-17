@@ -43,6 +43,11 @@ export default class MenuComponent extends React.Component {
                     <Text style={styles.optionText}>Проекты</Text>
                 </View>
             </TouchableOpacity>
+            <TouchableOpacity>
+                <View style={styles.option}>
+                    <Text style={styles.optionText}>Сменить пароль</Text>
+                </View>
+            </TouchableOpacity>
             <TouchableOpacity onPress={this.logOut.bind(this)}>
                 <View style={styles.option}>
                     <Text style={styles.optionText}>Выйти</Text>

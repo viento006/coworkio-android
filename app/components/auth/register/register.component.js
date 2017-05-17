@@ -74,7 +74,7 @@ export default class RegisterComponent extends Component {
 
                 <CustomInput title='Фамилия' value={this.state.lastName} onChangeText={lastName => this.setState({ lastName })}/>
 
-                <CustomInput title='Email' value={this.state.email} onChangeText={email => this.setState({ email })}/>
+                <CustomInput title='Электронная почта' value={this.state.email} onChangeText={email => this.setState({ email })}/>
 
                 <CustomInput title='Пароль' value={this.state.password} secureTextEntry={true}
                     onChangeText={password => this.setState({ password })}/>
