@@ -56,16 +56,16 @@ export default class ViewTaskComponent extends Component {
                     <InfoCardSection title='Описание' value={task.description} isVisible={task.description}></InfoCardSection>
                 </InfoCard>
                 <InfoCard title='Автор'>
-                    {!task.assigneeId? 
+                    {task.authorId ? 
                         <View style={[styles.section, styles.imageSection]}>
-                            <Image style={styles.image} source={task.assigneeId.photoUrl? { uri: task.assigneeId.photoUrl } : require('../../../images/placeholder.jpg')}/>
-                            <Text style={styles.text}>{task.assigneeId.firstName}</Text>
+                            <Image style={styles.image} source={task.authorId.photoUrl? { uri: task.authorId.photoUrl } : require('../../../images/placeholder.jpg')}/>
+                            <Text style={styles.text}>{task.authorId.firstName}</Text>
                         </View>:
                         <Text style={styles.text}>Не назначен</Text>
                     }
                 </InfoCard>
                 <InfoCard title='Исполнитель'>
-                    {!task.assigneeId? 
+                    {task.assigneeId ? 
                         <View style={[styles.section, styles.imageSection]}>
                             <Image style={styles.image} source={task.assigneeId.photoUrl? { uri: task.assigneeId.photoUrl } : require('../../../images/placeholder.jpg')}/>
                             <Text style={styles.text}>{task.assigneeId.firstName}</Text>

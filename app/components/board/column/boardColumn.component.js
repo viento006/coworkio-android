@@ -15,7 +15,7 @@ export default class BoardColumnComponent extends Component {
         var { width } = Dimensions.get('window');
 
         return (
-            <ScrollView style={[{ width: width * .8 }]}>
+            <View style={[{ width: width * .8 }]}>
                 <View style={[styles.container]}>
 
                 <Text style={styles.projectSectionHeader}>
@@ -29,7 +29,7 @@ export default class BoardColumnComponent extends Component {
                    Добавить задание
                 </Button>
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }

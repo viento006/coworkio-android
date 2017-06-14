@@ -19,5 +19,7 @@ export default colors = {
     cardBackground: '#ffffff',
 
     menuBackground: '#748196',
-    menuBorder: '#8C96AA'
+    menuBorder: '#8C96AA',
+
+    validation: '#DE8787'
 }

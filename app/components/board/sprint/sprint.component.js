@@ -13,10 +13,6 @@ export default class SprintComponent extends Component {
         
     }
 
-    onScroll(event) {
-        
-    }
-
     onEndDrag(event){
         let width  = Dimensions.get('window').width * 0.8;
 
@@ -33,18 +29,16 @@ export default class SprintComponent extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View >
                 <Text style={styles.title}>{this.props.sprint.id === 0 ? 'Оставшиеся задания' : this.props.sprint.name}</Text>            
-                <ScrollView horizontal={true} ref={(scrollView) => { this.scrollView = scrollView; }}
-                    onMomentumScrollEnd={this.onEndDrag.bind(this)}
-                    onScroll={this.onScroll.bind(this)} automaticallyAdjustContentInsets={false}>
-                        { this.props.boardConfig.statuses.map((status, index) => {
-                            const availableStatuses = this.props.boardConfig.statuses;
-                            const tasks = this.props.tasks.filter((task) => task.status === status.order).map(task =>  { return {...task, availableStatuses}});
-                            return <BoardColumn title={status.title} key={index} tasks={tasks} updateTask={this.props.updateTask} viewTask={this.props.viewTask}
-                                        createTask={()=>this.props.createTask(this.props.sprint.id, status.order)}></BoardColumn> })
-                        }
-                </ScrollView>
+                <View style={styles.columnsContainer}>
+                    { this.props.boardConfig.statuses.map((status, index) => {
+                        const availableStatuses = this.props.boardConfig.statuses;
+                        const tasks = this.props.tasks.filter((task) => task.status === status.order).map(task =>  { return {...task, availableStatuses}});
+                        return <BoardColumn title={status.title} key={index} tasks={tasks} updateTask={this.props.updateTask} viewTask={this.props.viewTask}
+                                    createTask={()=>this.props.createTask(this.props.sprint.id, status.order)}></BoardColumn> })
+                    }
+                </View>
             </View>
         );
     }
@@ -60,6 +54,10 @@ SprintComponent.propTypes = {
 }
 
 const styles = StyleSheet.create({
+    columnsContainer: {
+        flexDirection: 'row',
+        flex:1
+    },
     title:{
         paddingLeft: 10,
         marginTop: 10,
