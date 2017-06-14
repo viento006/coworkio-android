@@ -17,7 +17,8 @@ export default class RegisterComponent extends Component {
             email: '',
             password: '',
             repeatPassword: '',
-            isError: false
+            isError: false,
+            errorFields: {},
         };
     }
 
@@ -45,6 +46,16 @@ export default class RegisterComponent extends Component {
     setModalVisibility(value, message){
         this.setState({isError: value, errorMessage: message});
     }
+    
+    isValid(){
+        for(let fieldName in this.state.errorFields){
+            if(this.state.errorFields[fieldName]){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     render() {
         return (
@@ -70,26 +81,29 @@ export default class RegisterComponent extends Component {
                     Регистрация
                 </Text>
 
-                <CustomInput title='Имя' value={this.state.firstName} onChangeText={firstName => this.setState({ firstName })}/>
+                <CustomInput title='Имя' required={true} value={this.state.firstName}
+                    onChangeText={(firstName, isError) => { this.setState({ firstName, errorFields: { firstName: isError }}) }} />
 
-                <CustomInput title='Фамилия' value={this.state.lastName} onChangeText={lastName => this.setState({ lastName })}/>
+                <CustomInput title='Фамилия' required={true} value={this.state.lastName} 
+                    onChangeText={(lastName, isError) => { this.setState({ lastName, errorFields: { lastName: isError }}) }} />
 
-                <CustomInput title='Электронная почта' value={this.state.email} onChangeText={email => this.setState({ email })}/>
+                <CustomInput title='Электронная почта' required={true} value={this.state.email} 
+                    onChangeText={(email, isError) => { this.setState({ email, errorFields: { email: isError }}) }} />
 
-                <CustomInput title='Пароль' value={this.state.password} secureTextEntry={true}
-                    onChangeText={password => this.setState({ password })}/>
+                <CustomInput title='Пароль' required={true} value={this.state.password} secureTextEntry={true}
+                    onChangeText={(password, isError) => { this.setState({ password, errorFields: { password: isError }}) }} />
 
-                <CustomInput title='Повторите пароль' value={this.state.repeatPassword} secureTextEntry={true}
-                    onChangeText={repeatPassword => this.setState({ repeatPassword })}/>
+                <CustomInput title='Повторите пароль' required={true} value={this.state.repeatPassword} secureTextEntry={true}
+                    onChangeText={(repeatPassword, isError) => { this.setState({ repeatPassword, errorFields: { repeatPassword: isError }}) }} />
 
-                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                <Button disabled={!this.isValid.bind(this)() || this.props.auth.isPending } containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
                         style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.registerPressed.bind(this)}>
                     {this.props.auth.isPending?
                         <ActivityIndicator  color="#fff" animating={this.props.auth.isPending} />: 
                         'Зарегистрироваться'
                     }
                 </Button>
-                <Button containerStyle={formControlStyles.buttonContainer} style={formControlStyles.buttonContent} onPress={() => this.props.navigation.navigate('Login')}>
+                <Button disabled={this.props.auth.isPending} containerStyle={formControlStyles.buttonContainer} style={formControlStyles.buttonContent} onPress={() => this.props.navigation.navigate('Login')}>
                     Войти
                 </Button>
             </View>

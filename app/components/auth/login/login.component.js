@@ -7,13 +7,15 @@ import formControlStyles from '../../../styles/form-controls';
 
 import { Input } from '../../common/form-controls';
 
+
 export default class LoginComponent extends Component {
     constructor(props){
         super(props)
         let email = props.navigation.state.params && props.navigation.state.params.email;
         let password = props.navigation.state.params && props.navigation.state.params.password;
         this.state = {
-            isError: false,
+            isRequestError: false,
+            errorFields: {},
             email: email || 'test@test.com',
             password:password ||'123456',
             imageSize: new Animated.Value(150)
@@ -69,7 +71,17 @@ export default class LoginComponent extends Component {
     }
 
     setModalVisibility(value){
-        this.setState({isError: value});
+        this.setState({isRequestError: value});
+    }
+
+    isValid(){
+        for(let fieldName in this.state.errorFields){
+            if(this.state.errorFields[fieldName]){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     render() {
@@ -84,7 +96,7 @@ export default class LoginComponent extends Component {
                 <Modal
                     animationType={"slide"}
                     transparent={true}
-                    visible={ this.state.isError } 
+                    visible={ this.state.isRequestError } 
                     onRequestClose={()=>{}}>
                     <View style={[styles.modalContainer]}>
                         <View style={[styles.modalInnerContainer]}>
@@ -107,20 +119,20 @@ export default class LoginComponent extends Component {
                     </Text>
                 }
                 
-                <Input title='Email' value={userData.email}
-                     onChangeText={email => this.setState({ email })}/>
+                <Input title='Электронная почта' value={userData.email} required={ true } 
+                    onChangeText={(email, isError) => { this.setState({ email, errorFields: { email: isError }}) }}/>
 
-                <Input title='Пароль' value={userData.password}
-                     secureTextEntry={true} onChangeText={password => this.setState({password})} />
+                <Input title='Пароль' value={userData.password} required={true}
+                     secureTextEntry={true} onChangeText={(password, isError) => { this.setState({ password, errorFields: { password: isError }}) }} />
 
-                <Button containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
+                <Button disabled={!this.isValid.bind(this)() || this.props.auth.isPending } containerStyle={[formControlStyles.buttonContainer, formControlStyles.submitButtonContainer]} 
                         style={[formControlStyles.buttonContent, formControlStyles.submitButtonContent]} onPress={this.loginPressed.bind(this)}>
                     {this.props.auth.isPending?
                         <ActivityIndicator color="#fff" animating={this.props.auth.isPending} />: 
                         'Войти'
                     }
                 </Button>
-                <Button containerStyle={formControlStyles.buttonContainer} style={formControlStyles.buttonContent} onPress={() => this.props.navigation.navigate('Register')}>
+                <Button disabled={this.props.auth.isPending} containerStyle={formControlStyles.buttonContainer} style={formControlStyles.buttonContent} onPress={() => this.props.navigation.navigate('Register')}>
                     Зарегистрироваться
                 </Button>
                 </View>
