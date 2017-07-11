@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, ScrollView} from 'react-native';
+import { AppRegistry, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Button from 'react-native-button';
 
 import Sprint from './sprint/sprint.component';
