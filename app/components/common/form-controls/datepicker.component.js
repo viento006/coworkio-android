@@ -3,6 +3,7 @@ import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, DatePickerAndroi
 
 import colors from '../../../styles/colors';
 
+
 export default class DatepickerComponent extends Component {
     constructor(props){
         super(props)
@@ -43,7 +44,7 @@ export default class DatepickerComponent extends Component {
                             <Text style={styles.fakeValue}/>
                         </View>
                     </View>
-            </TouchableOpacity >
+            </TouchableOpacity>
         )
     }
 }
@@ -74,5 +75,5 @@ const styles = StyleSheet.create({
         borderColor: colors.inputUnderline,
         borderBottomWidth: 1,
         marginLeft: 5
-    },
+    }
 })

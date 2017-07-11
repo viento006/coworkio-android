@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
+import { AppRegistry, StyleSheet, ScrollView } from 'react-native';
 import Button from 'react-native-button';
 
 import InfoCard from '../../common/infoCard/infoCard.component';
@@ -10,48 +10,44 @@ import VacancyList from '../../common/vacancy/vacancyList.component';
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
 
+
 export default class ViewProjectComponent extends Component {
-    
-    constructor(){
-        super();
-        this.state = {deleteName: ''};
-    }
-
-    componentWillMount(){
-        this.props.getProject(this.props.navigation.state.params.project.id);
-    }
-
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: navigation.state.params.project.title,
         headerRight: <Button containerStyle={formControlStyles.navbarButtonContainer} style={formControlStyles.navbarButtonContent}
                        onPress={()=>{navigation.navigate('EditProject', { project: navigation.state.params.project})}}> ✎ </Button>
     });
 
-    getFormattedDate(timestamp) {
-        var date = new Date(timestamp);
+    constructor(){
+        super();
+        this.state = { deleteName: '' };
+    }
 
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var sec = date.getSeconds();
+    componentDidMount(){
+        this.props.getProject(this.props.navigation.state.params.project.id);
+    }
+
+    getFormattedDate(timestamp) {
+        let date = new Date(timestamp);
+
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let min = date.getMinutes();
+        let sec = date.getSeconds();
 
         month = (month < 10 ? "0" : "") + month;
         day = (day < 10 ? "0" : "") + day;
         hour = (hour < 10 ? "0" : "") + hour;
         min = (min < 10 ? "0" : "") + min;
 
-        var str = date.getFullYear() + "-" + month + "-" + day + " ";
+        let str = date.getFullYear() + "-" + month + "-" + day + " ";
 
         return str;
     }
 
     render() {
-        const project  = this.props.project.project || this.props.navigation.state.params.project || {positions:[]};
-        console.log('*******************************************************************')
-        console.log('RENDER: VIEW PROJECT *************************************************')
-        console.log('*******************************************************************')
-        
+        const project  = this.props.project.project || this.props.navigation.state.params.project || { positions:[] };
         return (
             <ScrollView style={styles.container}>
                 <InfoCard title='Информация о проекте'>
@@ -87,25 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.defaultBackground,
         padding: 15
-    },
-    imageSection: {
-        backgroundColor: colors.cardBackground,
-        padding: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    image: {
-        width: 100,
-        borderRadius: 50,
-        height: 100,
-        marginRight: 10
-    }, 
-    name:{
-        fontSize: 18,
-        color: colors.darkFontColor,
-        padding: 3
-    },
+    }
 })
-
 
 AppRegistry.registerComponent('ViewProjectComponent', () => ViewProjectComponent)

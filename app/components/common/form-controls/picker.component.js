@@ -3,6 +3,7 @@ import { AppRegistry, StyleSheet, Text, View, Picker } from 'react-native';
 
 import colors from '../../../styles/colors';
 
+
 export default class PickerComponent extends Component {
     constructor(props){
         super(props)
@@ -44,5 +45,5 @@ const styles = StyleSheet.create({
     },
     value:{
         color: colors.blockContent,
-    },
+    }
 })

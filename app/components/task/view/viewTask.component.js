@@ -15,7 +15,7 @@ import { Form } from '../../common/form-controls';
 
 
 export default class ViewTaskComponent extends Component {
-    componentWillMount(){
+    componentDidMount(){
         this.props.getTask(this.props.navigation.state.params.task.id);
     }
 
@@ -26,29 +26,26 @@ export default class ViewTaskComponent extends Component {
     });
 
     getFormattedDate(timestamp) {
-        var date = new Date(timestamp);
+        let date = new Date(timestamp);
 
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var sec = date.getSeconds();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let min = date.getMinutes();
+        let sec = date.getSeconds();
 
         month = (month < 10 ? "0" : "") + month;
         day = (day < 10 ? "0" : "") + day;
         hour = (hour < 10 ? "0" : "") + hour;
         min = (min < 10 ? "0" : "") + min;
 
-        var str = date.getFullYear() + "-" + month + "-" + day + " ";
+        let str = date.getFullYear() + "-" + month + "-" + day + " ";
 
         return str;
     }
 
     render() {
         const task = this.props.task.task || this.props.navigation.state.params.task;
-        console.log('*******************************************************************')
-        console.log('RENDER: VIEW TASK *************************************************')
-        console.log('*******************************************************************')
         return (
             <Form>
                 <InfoCard title='Общая информация'>
@@ -93,10 +90,6 @@ ViewTaskComponent.propTypes = {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-    },
     section: {
         margin: 10
     },
@@ -112,18 +105,7 @@ const styles = StyleSheet.create({
     text: {
         marginRight: 5,
         marginLeft: 5
-    },
-    editTaskButton:{
-        height: 30,
-        width: 30,
-        borderRadius: 15,
-        marginRight: 10
-    },
-    editTaskButtonContent:{
-        color: 'green',
-        fontSize: 20,
     }
 })
-
 
 AppRegistry.registerComponent('ViewTaskComponent', () => ViewTaskComponent)

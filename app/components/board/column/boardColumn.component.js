@@ -6,11 +6,8 @@ import Task from '../../task/board/task.component'
 
 import formControlStyles from '../../../styles/form-controls';
 
-export default class BoardColumnComponent extends Component {
-    componentWillReceiveProps(nextProps){
-        
-    }
 
+export default class BoardColumnComponent extends Component {
     render() {
         var { width } = Dimensions.get('window');
 
@@ -51,6 +48,5 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 })
-
 
 AppRegistry.registerComponent('BoardColumnComponent', () => BoardColumnComponent)

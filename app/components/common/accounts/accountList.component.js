@@ -5,6 +5,8 @@ import colors from '../../../styles/colors';
 
 import Button from 'react-native-button';
 import Account from './account.component';
+
+
 export default class AccountListComponent extends Component {
     removeItem(index){
         this.props.items.splice(index, 1);

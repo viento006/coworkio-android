@@ -5,6 +5,7 @@ import EditProjectComponent from './editProject.component';
 import { createProject } from '../../../common/actions/project.actions';
 import { getUsersProfiles } from '../../../common/actions/profile.actions';
 
+
 const mapStateToProps = (state) => {
     return  {
         projects: state.projects,
@@ -15,9 +16,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return  {
         onSubmit: (project) =>  {
-            console.log('*******************************************************************')
-            console.log('DISPATCHED: CREATE\EDIT PROJECT *************************************************')
-            console.log('*******************************************************************')
             dispatch(createProject(project))
         },
         getUsers: () =>  {

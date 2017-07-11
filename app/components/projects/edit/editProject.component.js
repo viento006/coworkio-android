@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, ActivityIndicator, Picker } from 'react-native';
-import Button from 'react-native-button';
-
-import colors from '../../../styles/colors';
-import formControlStyles from '../../../styles/form-controls';
+import { AppRegistry } from 'react-native';
 
 import InfoCard from '../../common/infoCard/infoCard.component';
 
 import { Form, Input, Datepicker, VacancyInput, SubmitButton } from '../../common/form-controls';
 
+
 export default class EditProjectComponent extends Component {
     users = [];
     isSubmitted = false;
+    selectOptions= [{label:'Hello', value: '1'}, {label:'Value', value: '2'}];
+
+    static navigationOptions = ({ navigation, screenProps }) => ({
+        title: navigation.state.params 
+            ? (navigation.state.params.isEdit ? 'Редактировать': 'Создать' ) +' проект'
+            : ''
+    });
 
     constructor(props){
         super(props);
@@ -25,7 +29,7 @@ export default class EditProjectComponent extends Component {
         };
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.props.getUsers();
     }
 
@@ -42,24 +46,12 @@ export default class EditProjectComponent extends Component {
         })];
     }
 
-    static navigationOptions = ({ navigation, screenProps }) => ({
-        title: navigation.state.params 
-            ? (navigation.state.params.isEdit ? 'Редактировать': 'Создать' ) +' проект'
-            : ''
-    });
-
-    selectOptions= [{label:'Hello', value: '1'}, {label:'Value', value: '2'}];
-
     submit(){
-        //validate
         this.props.onSubmit(this.state);
         this.isSubmitted = true;
     }
 
     render() {
-        console.log('*******************************************************************')
-        console.log('RENDER: EDIT PROJECT *************************************************')
-        console.log('*******************************************************************')
         return (
             <Form>
                 <InfoCard>

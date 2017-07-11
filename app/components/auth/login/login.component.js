@@ -26,15 +26,11 @@ export default class LoginComponent extends Component {
         this.setModalVisibility(nextProps.auth.status === 'error')
 
         if (nextProps.auth.status === 'authenticated' && nextProps.auth.token && nextProps.auth.status !== 'error'  && !nextProps.auth.isPending){
-            //redirect further
-
-            console.log('*******************************************************************')
-            console.log('NAVIGATING: MAIN *************************************************')
-            console.log('*******************************************************************')
             await AsyncStorage.setItem('token', nextProps.auth.token)
             this.props.navigation.navigate('Main')
         }
     }
+
     componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
@@ -85,10 +81,6 @@ export default class LoginComponent extends Component {
     }
 
     render() {
-        console.log('*******************************************************************')
-        console.log('RENDER: LOGIN *************************************************')
-        console.log('*******************************************************************')
-
         const userData  = this.state;
 
         return (
@@ -158,29 +150,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    headerImage: {
-        width: 150,
-        height: 150,
-    },
     content: {
         flex: 1,
         padding: 20
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
     },
     instructions: {
         textAlign: 'center',
         color: '#333333',
         marginBottom: 5,
-    },   
-    spinner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 8,
-    }, 
+    },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',

@@ -5,6 +5,7 @@ import BoardComponent from './board.component';
 
 import { fetchTasksByProjectId, updateTask } from '../../common/actions/task.actions';
 
+
 const mapStateToProps = (state) => {
     return  {
         tasks: state.tasks.tasksList

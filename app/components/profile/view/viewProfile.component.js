@@ -10,21 +10,17 @@ import TagList from '../../common/tag/tagList.component';
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
 
+
 export default class ViewProfileComponent extends Component {
-    
-    constructor(){
-        super();
-    }
-
-    componentWillMount(){
-        this.props.getProfile(this.props.navigation.state.params.profile.id);
-    }
-
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: `Ваш профиль`,
         headerRight: <Button containerStyle={formControlStyles.navbarButtonContainer} style={formControlStyles.navbarButtonContent}
                        onPress={()=>{navigation.navigate('EditProfile', { profile: navigation.state.params.profile})}}> ✎ </Button>
     });
+
+    componentDidMount(){
+        this.props.getProfile(this.props.navigation.state.params.profile.id);
+    }
 
     openUrl(url){
         Linking.openURL(url).catch(err => console.error('An error occurred', err));
@@ -32,14 +28,11 @@ export default class ViewProfileComponent extends Component {
 
     render() {
         const { profile } = this.props.profile;
-        console.log('*******************************************************************')
-        console.log('RENDER: VIEW PROFILE *************************************************')
-        console.log('*******************************************************************')
-        
+
         return (
             <ScrollView style={styles.container}>
                 <View style={[styles.section, styles.imageSection]}>
-                    <Image style={styles.image} source={profile.photoUrl? { uri: profile.photoUrl } : require('../../../images/placeholder.jpg')}/>
+                    <Image style={styles.image} source={profile.photoUrl ? { uri: profile.photoUrl } : require('../../../images/placeholder.jpg')}/>
                     <Text style={styles.name}>
                        {profile.lastName} {profile.firstName} {profile.middleName}
                     </Text>
@@ -113,6 +106,5 @@ const styles = StyleSheet.create({
         flex: 1
     },
 })
-
 
 AppRegistry.registerComponent('ViewProfileComponent', () => ViewProfileComponent)

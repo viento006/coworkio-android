@@ -5,6 +5,7 @@ import { fetchProject } from '../../../common/actions/project.actions';
 
 import ViewProjectComponent from './viewProject.component';
 
+
 const mapStateToProps = (state) => {
     return  {
         project: state.projects.activeProject

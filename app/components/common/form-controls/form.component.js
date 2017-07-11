@@ -3,6 +3,7 @@ import { AppRegistry, StyleSheet, View, ScrollView } from 'react-native';
 
 import colors from '../../../styles/colors';
 
+
 export default class FormComponent extends Component {
     render() {
         return (

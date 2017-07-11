@@ -5,11 +5,8 @@ import colors from '../../../styles/colors';
 
 import TagList from '../../common/tag/tagList.component';
 
-export default class TaskComponent extends Component {
-    componentWillReceiveProps(nextProps){
-        
-    }
 
+export default class TaskComponent extends Component {
     statusColors = {
         LOW: '#aaffcc',
         MINOR: '#eeffaa',
@@ -31,7 +28,7 @@ export default class TaskComponent extends Component {
                     <View style={[styles.statusLabel, {backgroundColor: this.statusColors[task.priority]}]}></View>
                     <View style={styles.contentWrapper}>
                         <View style={styles.content}>
-                            <View style={styles.wrapper}>
+                            <View>
                                 <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
                                     {task.title}
                                 </Text>
@@ -62,21 +59,18 @@ const styles = StyleSheet.create({
         margin: 5,
         elevation: 1
     },
-    statusLabel:{
+    statusLabel: {
         width: 10,
     },
-    contentWrapper:{
+    contentWrapper: {
         flex: 1,
         paddingBottom: 5,
         paddingLeft: 5
     },
-    content:{
+    content: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: -10
-    },
-    wrapper: {
-
     },
     title: {
         fontSize: 20,
@@ -84,8 +78,7 @@ const styles = StyleSheet.create({
     },
     picker: {
         width: 50
-    },
+    }
 })
-
 
 AppRegistry.registerComponent('TaskComponent', () => TaskComponent)

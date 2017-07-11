@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import colors from '../../../styles/colors';
 
 import Button from 'react-native-button';
 import Tag from './tag.component';
+
+
 export default class TagListComponent extends Component {
     removeTag(index){
         this.props.items.splice(index, 1);

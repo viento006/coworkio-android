@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Button from 'react-native-button';
 
 import colors from '../../../styles/colors';
 import formControlStyles from '../../../styles/form-controls';
+
 
 export default class SubmitButtonComponent extends Component {
     submit(){

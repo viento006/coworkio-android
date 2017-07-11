@@ -15,9 +15,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return  {
         onSubmit: (task, isEdit) =>  {
-            console.log('*******************************************************************')
-            console.log('DISPATCHED: CREATE\EDIT TASK *************************************************')
-            console.log('*******************************************************************')
             isEdit ? dispatch(updateTask(task)) : dispatch(addTask(task))
         },
         getUsers: () =>  {

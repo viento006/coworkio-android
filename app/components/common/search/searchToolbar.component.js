@@ -7,7 +7,6 @@ export default class SearchComponent extends Component  {
         return (
             <View>
                 <TextInput></TextInput>
-
             </View>
         )
     }

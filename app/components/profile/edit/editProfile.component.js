@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Image, TouchableOpacity , ActivityIndicator } from 'react-native';
-import Button from 'react-native-button';
+import { AppRegistry, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import { socialAccountTypes, universities, faculties } from '../enums';
@@ -11,7 +10,12 @@ import formControlStyles from '../../../styles/form-controls';
 import { Form, Input, Picker, TagInput, AccountInput, SubmitButton } from '../../common/form-controls';
 import InfoCard from '../../common/infoCard/infoCard.component';
 
+
 export default class EditProfileComponent extends Component {
+    static navigationOptions = ({ navigation, screenProps }) => ({
+        title: 'Изменить профиль'
+    });
+
     constructor(props){
         super();
         let { profile } = props.profile; 
@@ -44,10 +48,6 @@ export default class EditProfileComponent extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation, screenProps }) => ({
-        title: 'Изменить профиль'
-    });
-
     changeImage(){
         ImagePicker.openPicker({
             width: 300,
@@ -68,24 +68,17 @@ export default class EditProfileComponent extends Component {
                 method: 'post',
                 body: fd
             }).then(res => {
-                res.json().then((res) => this.setState({photoUrl: res.url}))
+                res.json().then((res) => this.setState({ photoUrl: res.url }))
             });
         });
     }
 
-    submit(){
-        //validate
-
+    submit() {
         let data = {...this.state};
         this.props.onSubmit(data);
     }
 
     render() {
-        console.log('*******************************************************************')
-        console.log('RENDER: EDIT PROFILE *************************************************')
-        console.log('*******************************************************************')
-        console.log(this.props.profile);
-        
         return (
             <Form>
                 <InfoCard style={styles.imagePicker}>
@@ -165,13 +158,6 @@ EditProfileComponent.propTypes = {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: colors.defaultBackground,
-        padding: 15,
-        marginTop: 0
-    },
     imagePicker: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -184,40 +170,7 @@ const styles = StyleSheet.create({
     },
     imageText: {
         flex:1
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    }, 
-    register: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    }, 
-    inputs: {
-        color: '#333333',
-        marginLeft: 20,
-        marginRight: 20
-    },
-    picker: {
-        marginLeft: 25,
-        marginRight: 25,
-        borderBottomWidth: 0.7,
-        borderColor: '#333333',
-    },
-    submitButton: {
-        color:"#fff",
-        fontWeight: 'bold'
-    },
-    spinner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 8,
-    },
-    
+    }
 })
 
 

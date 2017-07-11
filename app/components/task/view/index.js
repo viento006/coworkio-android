@@ -5,6 +5,7 @@ import { fetchTask } from '../../../common/actions/task.actions';
 
 import ViewTaskComponent from './viewTask.component';
 
+
 const mapStateToProps = (state) => {
     return  {
         task: state.tasks.activeTask

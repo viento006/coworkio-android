@@ -10,6 +10,7 @@ import Input from './input.component';
 import Picker from './picker.component';
 import VacancyList from '../vacancy/vacancyList.component';
 
+
 export default class VacancyInputComponent extends Component {
     constructor(props){
         super(props)
@@ -23,10 +24,11 @@ export default class VacancyInputComponent extends Component {
             employee: {}
         };
     }
+
     componentWillReceiveProps(nextProps){
         this.setState({items: nextProps.items});
     }
-//TODO: map existimg positions to users by id
+
     addPosition(){
         let newPosition = {
             title: this.state.title,

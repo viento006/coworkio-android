@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import EditProfileComponent from './editProfile.component';
 import { upsertProfile } from '../../../common/actions/profile.actions';
 
+
 const mapStateToProps = (state) => {
     return  {
         profile: state.profile.activeProfile,
@@ -14,9 +15,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return  {
         onSubmit: (profile) =>  {
-            console.log('*******************************************************************')
-            console.log('DISPATCHED: EDIT PROFILE *************************************************')
-            console.log('*******************************************************************')
             dispatch(upsertProfile(profile))
         }
     }

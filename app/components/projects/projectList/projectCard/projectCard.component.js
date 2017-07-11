@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Button from 'react-native-button';
 
 import colors from '../../../../styles/colors';
 import formControlStyles from '../../../../styles/form-controls';
 
 export default class ProjectCardComponent extends Component {
-    constructor(props){
-        super(props)
-    }
-
-//TODO: add conditional styling based on the current field
     render() {
-        const { project } = this.props.project; 
+        const { project } = this.props; 
         return (
             <TouchableOpacity onPress={this.props.onPress} activeOpacity={.8}>
                 <View style={styles.card}>

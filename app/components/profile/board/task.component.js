@@ -3,6 +3,7 @@ import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, Picker } from 'r
 
 import colors from '../../styles/colors';
 
+
 export default class TaskComponent extends Component {
     statusColors = {
         LOW: '#3BFF00',
@@ -10,10 +11,6 @@ export default class TaskComponent extends Component {
         NORMAL: '#FFE97F',
         MAJOR: '#FF7F7F',
         BLOCKER: '#FF0000',
-    }
-
-    viewTask(){
-
     }
 
     moveTask(status){
@@ -55,10 +52,10 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         justifyContent: 'space-between',
     },
-    statusLabel:{
+    statusLabel: {
         width: 10,
     },
-    content:{
+    content: {
         flexDirection: 'row'
     },
     title: {

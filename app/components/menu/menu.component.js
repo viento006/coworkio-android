@@ -3,7 +3,9 @@ import { AppRegistry, StyleSheet, Text, View, TouchableOpacity, Image, TextInput
 
 import colors from '../../styles/colors';
 
+
 export default class MenuComponent extends React.Component {
+  search = "";
   componentWillMount(){
     this.props.fetchProfile();
   }
@@ -26,8 +28,8 @@ export default class MenuComponent extends React.Component {
                 <Text style={styles.text}>{profile.firstName} {profile.lastName}</Text>
             </View>
             <View style={[styles.option, styles.search]}>
-                <TextInput style={styles.input} placeholder='Поиск' underlineColorAndroid='transparent' placeholderTextColor={colors.themeFontColor}/>
-                <TouchableOpacity>
+                <TextInput style={styles.input} placeholder='Поиск' underlineColorAndroid='transparent' placeholderTextColor={colors.themeFontColor} onChangeText={ value => this.search = value }/>
+                <TouchableOpacity onPress={() => this.props.navigateToSearch(this.search)}>
                     <View>
                         <Text style={styles.optionText}> 🔎</Text>
                     </View>

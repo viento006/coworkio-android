@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, ScrollView, View, TextInput, Dimensions, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
+import { AppRegistry, StyleSheet, ScrollView} from 'react-native';
 import Button from 'react-native-button';
 
 import Sprint from './sprint/sprint.component';
 
 import colors from '../../styles/colors';
 
+
 export default class BoardComponent extends Component {
+    scrollView = null;
+    isScrolling = false;
+
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: `Доска заданий ${navigation.state.params.project.title}`,
     });
 
-    componentWillMount(){
+    componentDidMount(){
         this.props.getTasks(this.props.navigation.state.params.project.id);
     }
 
@@ -22,12 +26,10 @@ export default class BoardComponent extends Component {
     }
 
     viewTask(task){
-        const { project } = this.props.navigation.state.params;
-        
+        const { project } = this.props.navigation.state.params;        
         this.props.navigation.navigate('ViewTask', { task, project });
     }
-scrollView = null;
-    isScrolling = false;
+
     onEndDrag(event){
         let width  = Dimensions.get('window').width * 0.8;
 
@@ -39,8 +41,8 @@ scrollView = null;
         this.scrollView.scrollTo({x: nextStop, animated: true});
 
         this.offset = currentOffset;
-        
     }
+
     render() {
         const { project } = this.props.navigation.state.params;
         const { tasks } = this.props.tasks;
@@ -75,6 +77,5 @@ const styles = StyleSheet.create({
         backgroundColor: colors.buttonBackground,
     },
 })
-
 
 AppRegistry.registerComponent('BoardComponent', () => BoardComponent)

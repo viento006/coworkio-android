@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 
 import colors from '../../../styles/colors';
 
 import Button from 'react-native-button';
 import Vacancy from './vacancy.component';
+
 
 export default class VacancyListComponent extends Component {
     removeItem(index){
@@ -14,7 +15,7 @@ export default class VacancyListComponent extends Component {
 
     render() {
         return (
-             <View style={styles.vacancyList}>
+             <View>
                 {this.props.items.map((item, index) => 
                     <Vacancy key={index} index={index} item={item} onRemove={this.props.onItemsChange ? this.removeItem.bind(this) : undefined}/>
                 )}
@@ -23,7 +24,3 @@ export default class VacancyListComponent extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    vacancyList: {
-    },
-})

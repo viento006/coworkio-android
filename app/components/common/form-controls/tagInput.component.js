@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
 import colors from '../../../styles/colors';
 
 import Button from 'react-native-button';
 import Input from './input.component';
 import TagList from '../tag/tagList.component';
+
 
 export default class TagInputComponent extends Component {
     constructor(props){
@@ -16,6 +17,7 @@ export default class TagInputComponent extends Component {
             value: ''
         };
     }
+
     componentWillReceiveProps(nextProps){
         this.setState({items: nextProps.items});
     }

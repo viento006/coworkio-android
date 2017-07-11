@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import LoginComponent from './login.component';
 import { loginUser } from '../../../common/actions/auth.actions';
 
+
 const mapStateToProps = (state) => {
     return  {
         auth: state.auth

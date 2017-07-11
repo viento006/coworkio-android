@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import Button from 'react-native-button';
 
 import { priorityTypes, taskTypes } from '../enums';
 
@@ -9,8 +8,16 @@ import colors from '../../../styles/colors';
 import { Form, Input, Datepicker, TagInput, Picker, SubmitButton } from '../../common/form-controls';
 import InfoCard from '../../common/infoCard/infoCard.component';
 
+
 export default class EditTaskComponent extends Component {
     isSubmitted = false;
+
+    static navigationOptions = ({ navigation, screenProps }) => ({
+        title: navigation.state.params 
+            ? (navigation.state.params.isEdit ? 'Редактировать': 'Создать' ) +' задачу' 
+            : ''
+    });
+
     constructor(props){
         super(props);
         const task = props.navigation.state.params.task || {};
@@ -18,9 +25,6 @@ export default class EditTaskComponent extends Component {
             id: task.id,
             title: task.title || '',
             taskType: task.taskType || 0,
-            //subtasks: '',
-            //parentTask: '',
-            //relatedTasks: '',
             description: task.description || '',
             assigneeId: task.assigneeId ? task.assigneeId.id : '',
             estimate: task.estimate || '',
@@ -33,7 +37,7 @@ export default class EditTaskComponent extends Component {
         };
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.props.getUsers();
     }
 
@@ -46,26 +50,16 @@ export default class EditTaskComponent extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation, screenProps }) => ({
-        title: navigation.state.params 
-            ? (navigation.state.params.isEdit ? 'Редактировать': 'Создать' ) +' задачу' 
-            : ''
-    });
-
-    submit(){
-        //validate
-        let data = { ...this.state};
+    submit() {
+        let data = { ...this.state };
         let isEdit = this.props.navigation.state.params.isEdit;
         this.props.onSubmit(data, isEdit);
         this.isSubmitted = true;
     }
 
     render() {
-        console.log('*******************************************************************')
-        console.log('RENDER: EDIT TASK *************************************************')
-        console.log('*******************************************************************')
         const project = this.props.navigation.state.params.project;
-        const users = [{label: 'Не назначено', value: ''},
+        const users = [{ label: 'Не назначено', value: '' },
             ...(project.positions ? project.positions.map(position =>{
                 return {
                     label: position.positionInfo.title,
@@ -107,7 +101,5 @@ export default class EditTaskComponent extends Component {
 EditTaskComponent.propTypes = {
     onSubmit: React.PropTypes.func.isRequired
 }
-
-
 
 AppRegistry.registerComponent('EditTaskComponent', () => EditTaskComponent)

@@ -7,8 +7,8 @@ import formControlStyles from '../../../styles/form-controls';
 
 import CustomInput from '../../common/form-controls/input.component';
 
-export default class RegisterComponent extends Component {
 
+export default class RegisterComponent extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -43,6 +43,7 @@ export default class RegisterComponent extends Component {
             this.setModalVisibility(true, 'Пароль и подтверждение не совпадают!')
         }
     }
+
     setModalVisibility(value, message){
         this.setState({isError: value, errorMessage: message});
     }
@@ -128,26 +129,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         color: colors.blockContent
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    }, 
-    login: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginTop: 30
-    },
-    submitButton: {
-        color:"#fff",
-    }, 
-    spinner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 8,
     },
     modalContainer: {
         flex: 1,

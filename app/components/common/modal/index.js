@@ -2,6 +2,7 @@ import { Modal, View, Text, Button } from 'react-native';
 
 import styles from './styles';
 
+
 const modal = <Modal
     animationType={"slide"}
     transparent={true}

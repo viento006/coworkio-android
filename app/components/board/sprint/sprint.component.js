@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, ScrollView, Dimensions, View, Text } from 'react-native';
+import { AppRegistry, StyleSheet, Dimensions, View, Text } from 'react-native';
 import Button from 'react-native-button';
 
 import BoardColumn from '../column/boardColumn.component';
 
 import colors from '../../../styles/colors';
 
+
 export default class SprintComponent extends Component {
     scrollView = null;
     isScrolling = false;
-    componentWillReceiveProps(nextProps){
-        
-    }
 
     onEndDrag(event){
         let width  = Dimensions.get('window').width * 0.8;
@@ -24,12 +22,11 @@ export default class SprintComponent extends Component {
         this.scrollView.scrollTo({x: nextStop, animated: true});
 
         this.offset = currentOffset;
-        
     }
 
     render() {
         return (
-            <View >
+            <View>
                 <Text style={styles.title}>{this.props.sprint.id === 0 ? 'Оставшиеся задания' : this.props.sprint.name}</Text>            
                 <View style={styles.columnsContainer}>
                     { this.props.boardConfig.statuses.map((status, index) => {
@@ -65,6 +62,5 @@ const styles = StyleSheet.create({
         fontSize: 30,
     }
 })
-
 
 AppRegistry.registerComponent('SprintComponent', () => SprintComponent)

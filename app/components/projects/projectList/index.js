@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ProjectListComponent from './projectList.component';
 import { fetchProjectsByUser } from '../../../common/actions/dashboard.actions';
 
+
 const mapStateToProps = (state) => {
     return  {
         projects: state.dashboard.projectsList

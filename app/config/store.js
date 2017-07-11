@@ -4,6 +4,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 
 import reducers from './reducers';
 
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const configureStore = function() {

@@ -6,7 +6,8 @@ import { logoutUser } from '../../common/actions/auth.actions';
 
 import MenuComponent from './menu.component';
 
- const mapStateToProps = (state) => {
+
+const mapStateToProps = (state) => {
     return  {
         profile: state.profile.activeProfile
     }
@@ -20,7 +21,6 @@ const mapDispatchToProps = (dispatch) => {
         dispatchLogOut: () => {
             dispatch(logoutUser()) 
         }
-        
     }
 };
 

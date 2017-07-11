@@ -5,6 +5,7 @@ import { fetchProfile } from '../../../common/actions/profile.actions';
 
 import ViewProfileComponent from './viewProfile.component';
 
+
 const mapStateToProps = (state) => {
     return  {
         profile: state.profile.activeProfile

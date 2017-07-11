@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 import colors from '../../../styles/colors';
 
+
 export default class InfoCardSectionComponent extends Component {
     render() {
-        if(this.props.isVisible || this.props.isVisible === undefined){
+        if (this.props.isVisible || this.props.isVisible === undefined) {
             return (
                 <View style={styles.block}>                    
                     {this.props.icon &&
@@ -23,7 +24,7 @@ export default class InfoCardSectionComponent extends Component {
                     </Text>
                 </View>
             )
-        }else{
+        } else {
             return <View></View>
         }
     }
@@ -50,5 +51,5 @@ const styles = StyleSheet.create({
         width: 26,
         height: 26,
         marginRight: 5
-    },
+    }
 })

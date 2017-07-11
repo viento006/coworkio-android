@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import colors from '../../../styles/colors';
+
+
 export default class InfoCardComponent extends Component {
     render() {
-        if(this.props.isVisible || this.props.isVisible === undefined){
+        if (this.props.isVisible || this.props.isVisible === undefined) {
             return (
                 <View style={[this.props.style, styles.section]}>
                     {this.props.title && 
@@ -15,7 +17,7 @@ export default class InfoCardComponent extends Component {
                     {this.props.children}
                 </View>
             )
-        }else{
+        } else {
             return <View></View>
         }
     }
